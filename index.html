@@ -1,0 +1,851 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes,viewport-fit=cover"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#111216"><title>IGLESIA DE DIOS REMANENTE DE MÉXICO</title><style>
+:root{color-scheme:light dark;font-family:system-ui,sans-serif}body{margin:0;background:Canvas;color:CanvasText}.wrap{max-width:650px;margin:auto;padding:20px}h1{text-align:center;font-size:1.7rem;line-height:1.3;margin:20px 0 32px;font-weight:800}h2{text-align:center;font-size:1.38rem}.logo{display:block;width:min(88%,340px);margin:20px auto}.item{display:block;width:100%;padding:17px;margin:10px 0;border:1px solid #a0a0a055;border-radius:12px;background:transparent;color:inherit;text-align:left;font-size:1rem}.bar{display:flex;gap:12px;align-items:center}input{box-sizing:border-box;width:100%;padding:15px;border-radius:10px;border:1px solid #888;background:transparent;color:inherit;font-size:1rem}.hint{color:gray;font-size:.88rem}button{cursor:pointer}.num{display:inline-block;min-width:40px;font-weight:bold}.center{text-align:center}.spacer{height:2em}.stanza{margin:0 0 3em;white-space:pre-line;line-height:1.5;text-align:center}.stanza-label{text-align:center;font-weight:700;margin:0 0 .75em}.stanza{break-inside:avoid}.song-title{text-align:center;font-weight:750}.song-number{text-align:center;font-size:1.6rem;font-weight:750;margin:1.2rem 0 .35rem}.song-author{text-align:center;color:gray;font-size:.88rem;margin:0 0 2rem}.song-nav{justify-content:space-between;margin-top:2rem}.song-nav button{padding:12px;border-radius:10px;background:transparent;color:inherit;border:1px solid #888}.wrap{overflow-wrap:break-word}.stanza{white-space:pre-line;overflow-wrap:anywhere}.song-title{line-height:1.35} .stanza{margin-bottom:3.25em} .stanza-label{margin-bottom:.75em} .item:focus-visible,button:focus-visible{outline:3px solid #357bda} @media(prefers-color-scheme:dark){.item{border-color:#777}}
+:root{color-scheme:light;--bg:#fff;--fg:#171717;--edge:#d4d4d4;--muted:#666}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#101114;--fg:#f3f3f3;--edge:#50535b;--muted:#b5b5b5}
+body{background:var(--bg);color:var(--fg)}
+.item,input,.song-nav button,.theme-toggle,.bar>button{border:1px solid var(--edge);color:var(--fg);background:transparent}
+.hint,.song-author{color:var(--muted)}
+.theme-toggle{margin-left:auto;border-radius:12px;padding:10px 14px;font-size:1.15rem;min-width:46px;cursor:pointer}
+
+/* Revisión 12: controles visibles por encima de la navegación del sistema. */
+body.reading .wrap{padding-bottom:calc(104px + env(safe-area-inset-bottom, 0px))}
+.song-nav{position:fixed;z-index:50;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(16px, env(safe-area-inset-left, 0px)) calc(14px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px));box-sizing:border-box;background:var(--bg);border-top:1px solid var(--edge);box-shadow:0 -4px 16px #00000015;margin:0}
+.song-nav button{min-height:52px;flex:1;font-size:1rem;font-weight:600;border-radius:12px}
+.song-nav button.nav-list{flex:0 0 64px;font-size:1.6rem}
+.alpha-group{margin:18px 0 24px}
+.alpha-heading{font-size:1.25rem;font-weight:800;border-bottom:2px solid var(--edge);padding:8px 4px;margin:0 0 4px}
+.index-entry{display:flex;justify-content:space-between;align-items:baseline;gap:16px;width:100%;text-align:left;padding:12px 4px;border:0;border-bottom:1px solid var(--edge);background:transparent;color:var(--fg);font-size:1rem;line-height:1.35}
+.index-entry strong{flex:0 0 36px;text-align:right;font-variant-numeric:tabular-nums}
+/* Revisión 17: categorías predominantes, acciones secundarias discretas. */
+.home-tools{justify-content:flex-end}
+.home-categories{display:flex;flex-direction:column;gap:10px;margin:22px 0 32px}
+.home-categories .item{margin:0;padding:19px 17px;font-size:1.2rem;font-weight:750}
+.home-secondary{display:flex;flex-direction:column;gap:15px;margin-top:30px}
+.home-secondary .item{margin:0;padding:11px 14px;font-size:.88rem;font-weight:550;text-align:center;border-radius:10px}
+.home-slogan{text-align:center;font-size:1.55rem;font-weight:750;line-height:1.4;margin:20px 0 28px}
+
+/* Revisión 19: menú compacto, ambas acciones visibles y margen de seguridad inferior. */
+body:not(.reading) .wrap{padding-bottom:calc(34px + env(safe-area-inset-bottom, 0px))}
+.home-tools .theme-toggle{padding:8px 12px;min-height:42px}
+.logo{width:min(84%,310px);margin:12px auto 0}
+.home-slogan{font-size:clamp(1.15rem,4.8vw,1.36rem);line-height:1.3;margin:14px 0 16px}
+.home-categories{gap:9px;margin:14px 0 0}
+.home-categories .item{padding:15px 16px;font-size:1.08rem;min-height:58px}
+.home-secondary{gap:13px;margin-top:24px}
+.home-secondary .item{padding:11px 10px;min-height:45px;font-size:clamp(.76rem,3.3vw,.88rem);line-height:1.2}
+@media(max-height:780px){
+ .wrap{padding-top:10px}
+ .logo{width:min(74%,260px);margin:6px auto 0}
+ .home-slogan{margin:10px 0 12px;font-size:1.14rem}
+ .home-categories{gap:7px;margin-top:10px}
+ .home-categories .item{padding:11px 14px;min-height:50px}
+ .home-secondary{margin-top:17px;gap:10px}
+ .home-secondary .item{min-height:42px;padding:9px}
+}
+
+/* Biblia: menú compacto y navegación cómoda */
+.bible-header h2{flex:1;font-size:1.22rem;margin:12px 0}.bible-book-item{padding:12px 15px;margin:5px 0}.bible-chapters{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px}.bible-chapters button,.bible-font-controls button,.bible-bottom button{background:transparent;color:var(--fg);border:1px solid var(--edge);border-radius:10px;padding:12px}.bible-verses{line-height:1.85;padding-bottom:110px}.bible-verses p{margin:0;line-height:1.85}.bible-verses sup{font-weight:800;color:var(--muted);margin-right:5px}.bible-font-controls{display:flex;justify-content:center;align-items:center;gap:15px;margin:12px 0}.bible-bottom{position:sticky;bottom:0;background:var(--bg);display:flex;gap:8px;padding:10px 0 16px}.bible-bottom button{flex:1}.bible-bottom button:disabled{opacity:.3}.bible-hit{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--edge);background:transparent;color:var(--fg);padding:12px 4px}.bible-hit strong{display:block;margin-bottom:5px}.bible-hit span{line-height:1.45}
+.bible-book-list{display:flex;flex-direction:column;gap:7px;margin:14px 0 26px}.bible-book-list .bible-book-item{display:flex;align-items:center;gap:13px;width:100%;text-align:left}.bible-book-number{font-size:.9rem;color:var(--muted);min-width:30px;text-align:right}.bible-book-name{flex:1;font-weight:650}.bible-book-count{font-size:.9rem;color:var(--muted)}.bible-testaments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0 16px}.bible-testaments .item{font-size:1rem;font-weight:800;text-align:center;padding:18px 8px;min-height:90px;line-height:1.4;white-space:normal}.bible-notes-center{display:flex;justify-content:center;margin:0 auto 22px}.bible-notes-center .item{width:min(72%,270px);font-weight:800;text-align:center;padding:14px 12px}.bible-verses-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:18px 0 24px}.bible-verses-grid button{min-height:49px;border:1px solid var(--edge);background:transparent;color:var(--fg);border-radius:11px;font-size:1.1rem;font-weight:700}.bible-verses section{scroll-margin-top:20px}.bible-verses section.selected-verse{background:rgba(95,157,125,.17);border-left:4px solid #69aa82;padding:8px;border-radius:6px}.bible-show-all{margin-bottom:16px}
+/* Cuarta categoría: mantener las acciones visibles en pantallas pequeñas */
+.home-categories{gap:6px}.home-categories .item{padding:11px 14px;min-height:49px}.home-secondary{margin-top:15px;gap:9px}.home-secondary .item{min-height:40px;padding:9px}.logo{width:min(76%,275px)}.home-slogan{margin:9px 0 11px}
+@media(max-height:780px){.logo{width:min(65%,225px)}.home-categories{gap:5px}.home-categories .item{min-height:43px;padding:8px 12px;font-size:1rem}.home-secondary{margin-top:11px;gap:7px}.home-secondary .item{min-height:38px;padding:7px}}
+/* Apuntes bíblicos: guardados localmente, sin servidores. */
+.notes-list{display:flex;flex-direction:column;gap:9px;margin-top:16px}.notes-item{display:flex;justify-content:space-between;gap:12px;align-items:center}.notes-item .notes-title{font-weight:700;overflow-wrap:anywhere}.notes-date{display:block;color:var(--muted);font-size:.8rem;margin-top:5px}.notes-editor label{display:block;font-weight:700;margin:18px 0 7px}.notes-editor textarea{box-sizing:border-box;width:100%;min-height:270px;padding:14px;border:1px solid var(--edge);border-radius:12px;background:var(--bg);color:var(--fg);font:inherit;line-height:1.55;resize:vertical}.notes-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.notes-actions button{flex:1;min-width:120px;border:1px solid var(--edge);border-radius:10px;background:transparent;color:var(--fg);padding:13px 9px}.notes-content{white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere}
+
+/* Revisión 30: formulario de temas bíblicos y acciones compactas. */
+.notes-editor .note-topic-row{display:flex;align-items:center;gap:12px;margin:18px 0 16px}
+.notes-editor .note-topic-row label{margin:0;flex:0 0 auto;font-size:1.12rem;font-weight:800}
+.notes-editor .note-topic-row input{min-width:0;flex:1;width:100%;box-sizing:border-box;border:1px solid var(--edge);border-radius:10px;padding:12px;background:var(--bg);color:var(--fg);font:inherit}
+.notes-editor .note-text-heading{display:block;font-size:1.12rem;font-weight:800;margin:12px 0 9px}
+.notes-editor textarea{min-height:310px}
+.notes-editor .notes-toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:15px}
+.notes-editor .notes-toolbar button{border:1px solid var(--edge);border-radius:10px;background:transparent;color:var(--fg);padding:12px 13px;min-height:45px;font:inherit;font-weight:700}
+.notes-editor .notes-toolbar .note-add{font-size:1.5rem;min-width:54px;line-height:1}
+.notes-editor .notes-toolbar .note-share{flex:1}
+.notes-editor .notes-toolbar .note-save{flex:1}
+
+/* Compartir/copiar versículos individualmente y capítulo completo */
+.bible-text-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
+.bible-text-actions button,.verse-actions button{background:transparent;color:var(--fg);border:1px solid var(--edge);border-radius:9px;padding:9px 11px;font-size:.88rem;min-height:40px}
+.bible-verses .verse-actions{display:flex;gap:8px;margin:5px 0 14px 0;flex-wrap:wrap}
+.bible-verses .verse-actions button{font-size:.8rem;min-height:34px;padding:6px 10px}
+
+/* Revisión 27: opciones contextuales solo al mantener presionado un versículo. */
+.bible-text-actions,.verse-actions{display:none!important}
+.bible-verses section{padding:9px 6px 13px;margin-bottom:10px;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.bible-chapter-title{text-align:center;font-size:1.5rem;font-weight:800;margin:25px 0 20px;padding-bottom:14px;border-bottom:1px solid var(--edge)}.bible-hold-hint{text-align:center;color:var(--muted);font-size:.82rem;margin:7px 0 15px}
+.bible-action-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px}
+.bible-action-dialog{box-sizing:border-box;width:min(100%,360px);background:var(--bg);color:var(--fg);border:1px solid var(--edge);border-radius:17px;padding:18px;box-shadow:0 10px 40px #0005}
+.bible-action-dialog h3{text-align:center;margin:5px 0 17px;font-size:1.12rem}
+.bible-action-dialog button{display:block;width:100%;margin:9px 0;padding:14px 9px;border:1px solid var(--edge);border-radius:10px;background:transparent;color:var(--fg);font-weight:700}
+
+/* Revisión 29: números ámbar y referencia de capítulo siempre visible. */
+:root{--bible-amber:#FFAD42}
+.bible-verses sup{color:var(--bible-amber)!important;font-weight:850;font-size:.9em;vertical-align:baseline;position:relative;top:0;margin-right:.45em;font-variant-numeric:tabular-nums}
+.bible-read-sticky{position:sticky;top:0;z-index:70;background:var(--bg);border-bottom:1px solid var(--edge);box-shadow:0 3px 12px #00000015;margin:0 -20px;padding:0 20px 7px}
+.bible-read-sticky .bible-header h2{margin:9px 0;font-size:1.12rem}
+.bible-current-chapter{text-align:center;color:var(--bible-amber);font-size:1rem;font-weight:850;letter-spacing:.025em;padding:5px 0 7px}
+.bible-verses section{scroll-margin-top:115px}
+.bible-chapter-title{color:var(--bible-amber)}
+.note-select-label{display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer}.note-select-label input{width:23px;height:23px;flex:0 0 auto;accent-color:#ffad42}.note-open-btn{border:1px solid var(--edge);background:transparent;color:var(--fg);border-radius:9px;padding:11px 10px;font-weight:700}.notes-actions button:disabled{opacity:.45}.notes-list .notes-item{padding:11px 10px}
+.notes-top-actions{display:flex;align-items:center;gap:8px}.notes-top-add{min-width:44px;min-height:44px;border:1px solid var(--edge);border-radius:11px;background:transparent;color:var(--fg);font-size:1.7rem;font-weight:700;line-height:1;cursor:pointer}.notes-header-title{flex:1;text-align:center;margin:0}.notes-header{display:flex;align-items:center;gap:9px}.notes-header .notes-top-actions{margin-left:auto}
+/* Revisión 33: lectura, apuntes y menú */
+.home-greeting{font-size:.78em;font-weight:600;line-height:1.35;margin-top:5px}.home-logo{display:block}.home-logo .logo{height:auto}
+.song-zoom{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto 24px}
+.song-zoom button{min-width:58px;min-height:46px;border:1px solid var(--edge);border-radius:12px;background:transparent;color:var(--fg);font-size:1.1rem;font-weight:750}
+.song-zoom span{font-size:.9rem;color:var(--muted)}
+.song-content{max-width:100%;min-width:0;overflow-wrap:anywhere;word-break:normal}
+.song-content .stanza{font-size:1em;line-height:1.55;white-space:pre-line;overflow-wrap:anywhere;max-width:100%}
+.song-content .stanza-label{font-size:1em}
+.bible-verses section.selected-verse{background:#394DA6!important;border-left:0!important;border-radius:3px!important;padding:9px 6px 13px!important;color:#fff!important}
+.bible-verses section.selected-verse sup{color:#FFAD42!important}
+.notes-header{position:relative;margin-top:clamp(14px,4vh,32px);min-height:54px;justify-content:space-between}
+.notes-header-title{position:absolute;left:50%;transform:translateX(-50%);width:auto;max-width:44%;font-size:1.4rem;white-space:nowrap;text-align:center}
+.notes-header .notes-top-actions{margin-left:auto}
+@media(max-width:390px){.notes-header-title{font-size:1.22rem}}
+
+/* Revisión 40: navegación bíblica siempre dentro del área utilizable. */
+.bible-bottom{position:fixed!important;left:0;right:0;bottom:0;z-index:85;box-sizing:border-box;display:flex;gap:8px;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--bg);border-top:1px solid var(--edge);box-shadow:0 -4px 16px #00000018}
+.bible-bottom button{min-width:0;min-height:48px;font-size:clamp(.82rem,3.5vw,1rem);font-weight:650}
+body.bible-reading .wrap{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
+.bible-header>button:first-child{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:46px;height:46px;min-width:46px;min-height:46px;padding:0;border-radius:12px;font-size:1.35rem;line-height:1;font-weight:600}
+.bible-header .theme-toggle{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:46px;height:46px;min-width:46px;min-height:46px;padding:0;font-size:1.35rem;line-height:1}
+
+/* Revisión 41: encabezados de cantos simétricos y título centrado. */
+.song-category-header{position:relative;display:grid;grid-template-columns:46px minmax(0,1fr) 46px;align-items:center;gap:8px;min-height:52px}
+.song-category-header>button:first-child,.song-category-header>.theme-toggle{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:46px;height:46px;min-width:46px;min-height:46px;margin:0;padding:0;border-radius:12px;font-size:1.35rem;line-height:1}
+.song-category-header>h2{min-width:0;margin:0;text-align:center;font-size:clamp(1.04rem,4.2vw,1.38rem);line-height:1.25;overflow-wrap:break-word}
+.home-logo .logo{object-fit:contain}
+
+/* Revisión 42: portada inspirada en la maqueta, con controles nativos HTML interactivos. */
+body.home-screen{--home-accent:#1884d7;--home-glow:#159de5}
+body.home-screen[data-unused]{display:block}
+:root[data-theme="dark"] body.home-screen{background:radial-gradient(ellipse at 50% 21%,#00335c 0%,#001b37 36%,#001329 70%,#001329 100%);color:#fff}
+:root[data-theme="light"] body.home-screen{background:linear-gradient(155deg,#f7fcff 0%,#e7f4ff 48%,#f6fbff 100%);color:#10243b}
+body.home-screen .wrap{box-sizing:border-box;max-width:650px;min-height:100dvh;padding:8px clamp(13px,4vw,22px) calc(25px + env(safe-area-inset-bottom,0px));overflow:hidden}
+body.home-screen .home-tools{height:39px;margin:0;position:relative;z-index:1}
+body.home-screen .home-tools .theme-toggle{width:40px;min-width:40px;height:38px;min-height:38px;border-radius:12px;padding:0;background:#082842a8;border:1px solid #2788c0;color:#fff;font-size:1.2rem}
+:root[data-theme="light"] body.home-screen .home-tools .theme-toggle{background:#fff;color:#0d3353}
+body.home-screen .home-logo{display:block;margin:0 auto;max-width:min(83vw,335px)}
+body.home-screen .home-logo .logo{display:block;width:100%;max-width:100%;margin:0 auto;filter:drop-shadow(0 0 15px rgba(0,146,235,.38))}
+:root[data-theme="light"] body.home-screen .home-logo .logo{filter:drop-shadow(0 4px 9px rgba(20,84,131,.14))}
+body.home-screen .home-slogan{margin:4px 0 0;text-align:center;font-size:clamp(1.13rem,5.1vw,1.75rem);font-weight:850;line-height:1.24;letter-spacing:-.025em;text-shadow:0 2px 7px #0005}
+:root[data-theme="light"] body.home-screen .home-slogan{text-shadow:none}
+body.home-screen .home-greeting{margin:7px 0 13px;font-size:clamp(1.12rem,5.1vw,1.7rem);font-weight:850;font-style:italic;color:#ffc22e;text-shadow:0 0 13px #c8912566;letter-spacing:0}
+:root[data-theme="light"] body.home-screen .home-greeting{color:#c28a06;text-shadow:none}
+body.home-screen .home-categories{gap:9px;margin:7px 0 0}
+body.home-screen .home-categories .home-category{display:grid;grid-template-columns:62px minmax(0,1fr) 23px;align-items:center;gap:12px;min-height:69px;margin:0;padding:8px 13px;border:2px solid #167ac3;border-radius:22px;background:linear-gradient(105deg,#072f50d9,#001827e6 65%,#03203ae8);box-shadow:inset 0 1px 8px #1a9df52b,0 2px 12px #0003;color:#fff;text-align:left}
+body.home-screen .home-category-icon{font-family:system-ui,sans-serif;display:flex;justify-content:center;align-items:center;font-size:2.2rem;min-height:43px;border-right:1px solid #74bde2;padding-right:9px;color:#ffcb32;text-shadow:0 1px 3px #000}
+body.home-screen .home-category-label{font-size:clamp(1rem,4.5vw,1.38rem);font-weight:850;line-height:1.08;letter-spacing:.01em}
+body.home-screen .home-category-chevron{font-size:1.4rem;justify-self:end}
+body.home-screen .home-secondary{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:23px}
+body.home-screen .home-secondary .item{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:67px;padding:8px 5px;border:2px solid #167ac3;border-radius:19px;background:linear-gradient(105deg,#062e4ae0,#001a2ce6);box-shadow:inset 0 1px 8px #1a9df52b;color:#fff;font-size:clamp(.64rem,2.65vw,.89rem);font-weight:800;line-height:1.12}
+body.home-screen .home-secondary-icon{font-size:1.8rem;line-height:1;color:#fff}
+body.home-screen .home-whatsapp .home-secondary-icon{display:grid;place-items:center;border:3px solid white;border-radius:50%;background:#119e36;width:32px;height:32px;font-size:1.2rem;flex-shrink:0}
+:root[data-theme="light"] body.home-screen .home-categories .home-category,:root[data-theme="light"] body.home-screen .home-secondary .item{background:linear-gradient(110deg,#eaf7ff,#d3ebff);color:#103451;box-shadow:0 2px 10px #0067a51b}
+:root[data-theme="light"] body.home-screen .home-category-icon{border-right-color:#529cc7}
+:root[data-theme="light"] body.home-screen .home-secondary-icon{color:#16486b}
+:root[data-theme="light"] body.home-screen .home-whatsapp .home-secondary-icon{color:#fff}
+@media(max-height:800px){body.home-screen .home-logo{max-width:min(65vw,240px)}body.home-screen .home-categories{gap:6px}body.home-screen .home-categories .home-category{min-height:54px;padding:5px 11px;border-radius:16px}body.home-screen .home-category-icon{font-size:1.7rem;min-height:34px}body.home-screen .home-secondary{margin-top:12px}body.home-screen .home-secondary .item{min-height:53px}body.home-screen .home-greeting{margin:4px 0 8px}}
+@media(max-width:355px){body.home-screen .home-categories .home-category{grid-template-columns:48px minmax(0,1fr) 15px;gap:7px}body.home-screen .home-category-icon{font-size:1.6rem}body.home-screen .home-secondary .item{font-size:.62rem}}
+/* Revisión 48: transición suave del logotipo hacia el fondo azul, sin marco cuadrado.
+   Se aplica únicamente en modo oscuro para conservar el fondo blanco original en modo claro. */
+:root[data-theme="dark"] body.home-screen .home-logo{
+  position:relative;
+  isolation:isolate;
+  -webkit-mask-image:radial-gradient(ellipse 78% 78% at 50% 50%, #000 58%, rgba(0,0,0,.92) 72%, rgba(0,0,0,.4) 88%, transparent 100%);
+  mask-image:radial-gradient(ellipse 78% 78% at 50% 50%, #000 58%, rgba(0,0,0,.92) 72%, rgba(0,0,0,.4) 88%, transparent 100%);
+}
+:root[data-theme="dark"] body.home-screen .home-logo .logo{
+  filter:drop-shadow(0 0 14px rgba(0,153,239,.24));
+}
+:root[data-theme="light"] body.home-screen .home-logo{
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+/* Revisión 50: el fondo azul marino coincide con el logotipo nocturno, con bordes fundidos. */
+/* Revisión 43: nombre del ministro interactivo, sin alterar el saludo. */
+.minister-contact-trigger{display:inline-block;background:none;border:0;color:inherit;font:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit;text-shadow:inherit;padding:0 3px;cursor:pointer;text-align:center;text-decoration:underline;text-decoration-color:#ffc22e70;text-underline-offset:5px}
+.minister-contact-dialog p{text-align:center;line-height:1.45;margin:12px 0 6px}
+.minister-contact-dialog button{overflow-wrap:anywhere}
+
+.minister-contact-dialog{display:flex;flex-direction:column;gap:12px;max-width:340px}.minister-contact-dialog button{margin:0;min-height:52px} /* Revisión 52: misma imagen, dimensiones y alineación en ambos temas. */
+body.home-screen .home-logo,
+:root[data-theme="dark"] body.home-screen .home-logo,
+:root[data-theme="light"] body.home-screen .home-logo{
+  width:min(94vw,390px);
+  max-width:min(94vw,390px);
+  aspect-ratio:1/1;
+  margin:0 auto;
+  display:block;
+  position:relative;
+  isolation:isolate;
+  -webkit-mask-image:radial-gradient(ellipse 81% 81% at 50% 50%,black 58%,rgba(0,0,0,.96) 71%,rgba(0,0,0,.46) 89%,transparent 100%);
+  mask-image:radial-gradient(ellipse 81% 81% at 50% 50%,black 58%,rgba(0,0,0,.96) 71%,rgba(0,0,0,.46) 89%,transparent 100%);
+}
+body.home-screen .home-logo .logo,
+:root[data-theme="dark"] body.home-screen .home-logo .logo,
+:root[data-theme="light"] body.home-screen .home-logo .logo{
+  display:block;width:100%;height:100%;max-width:none;object-fit:contain;
+  filter:drop-shadow(0 0 12px rgba(0,153,239,.25));
+}
+body.home-screen .home-slogan{margin-top:2px}
+body.home-screen .home-greeting{margin-bottom:12px}
+body.home-screen .home-categories{margin-top:7px}
+@media(max-height:800px){
+ body.home-screen .home-logo,
+ :root[data-theme="dark"] body.home-screen .home-logo,
+ :root[data-theme="light"] body.home-screen .home-logo{width:min(72vw,275px);max-width:min(72vw,275px)}
+}
+
+/* Rev53: imagen clara de fondo blanco con halo integrado; misma geometría en ambos temas. */
+:root[data-theme="light"] body.home-screen .home-logo{
+ -webkit-mask-image:radial-gradient(ellipse 82% 82% at center, #000 66%, rgba(0,0,0,.97) 77%, rgba(0,0,0,.55) 91%, transparent 100%);
+ mask-image:radial-gradient(ellipse 82% 82% at center, #000 66%, rgba(0,0,0,.97) 77%, rgba(0,0,0,.55) 91%, transparent 100%);
+}
+:root[data-theme="light"] body.home-screen .home-logo .logo{filter:none}
+/* Rev54: emblema casi de borde a borde, igual en ambos temas. */
+body.home-screen .home-logo,
+:root[data-theme="dark"] body.home-screen .home-logo,
+:root[data-theme="light"] body.home-screen .home-logo{
+ width:min(98vw,470px);
+ max-width:min(98vw,470px);
+}
+@media(max-height:800px){
+ body.home-screen .home-logo,
+ :root[data-theme="dark"] body.home-screen .home-logo,
+ :root[data-theme="light"] body.home-screen .home-logo{
+  width:min(94vw,360px);
+  max-width:min(94vw,360px);
+ }
+}
+/* Rev56: navegación de cantos compacta, justo encima de la barra del sistema.
+   Android aplica los márgenes seguros al WebView: no duplicar el inset inferior. */
+body.reading .song-nav{bottom:0;padding:7px 12px 8px;gap:8px;min-height:0}
+body.reading .song-nav button{min-height:43px;padding:8px 5px;font-size:.91rem;border-radius:10px}
+body.reading .song-nav button.nav-list{flex:0 0 51px;font-size:1.4rem}
+/* Rev58: reservar el alto REAL de la barra inferior en el área desplazable.
+   Así ninguna estrofa queda detrás de los botones, incluso con fuentes grandes. */
+body.reading .wrap{padding-bottom:calc(var(--song-nav-height, 68px) + 28px + env(safe-area-inset-bottom, 0px))!important}
+body.reading{scroll-padding-bottom:calc(var(--song-nav-height, 68px) + 28px)}
+body.reading .song-content{padding-bottom:10px}
+body.reading .song-nav{max-width:100vw}
+
+/* El mismo tamaño de imagen en ambos temas, algo menor que en Rev55. */
+body.home-screen .home-logo,
+:root[data-theme="dark"] body.home-screen .home-logo,
+:root[data-theme="light"] body.home-screen .home-logo{
+ width:min(88vw,390px);max-width:min(88vw,390px);
+}
+@media(max-height:800px){
+ body.home-screen .home-logo,
+ :root[data-theme="dark"] body.home-screen .home-logo,
+ :root[data-theme="light"] body.home-screen .home-logo{
+  width:min(79vw,300px);max-width:min(79vw,300px);
+ }
+}
+
+/* Rev57: portada completa sin desplazamiento, idéntica en modo claro y oscuro. */
+body.home-screen{min-height:100dvh;overflow-x:hidden}
+body.home-screen .wrap{min-height:0;height:100dvh;display:flex;flex-direction:column;justify-content:flex-start;padding-top:4px;padding-bottom:calc(7px + env(safe-area-inset-bottom,0px));gap:0}
+body.home-screen .home-tools{height:34px;min-height:34px;flex-shrink:0}
+body.home-screen .home-tools .theme-toggle{height:33px;min-height:33px}
+body.home-screen .home-logo,
+:root[data-theme="dark"] body.home-screen .home-logo,
+:root[data-theme="light"] body.home-screen .home-logo{
+  width:min(83vw,calc((100dvh - 480px)*.95),320px);
+  max-width:min(83vw,calc((100dvh - 480px)*.95),320px);
+  min-width:105px;
+  aspect-ratio:1/1;flex:0 1 auto;
+}
+body.home-screen .home-slogan{margin-top:0;font-size:clamp(.98rem,4.1vw,1.45rem);line-height:1.15;flex-shrink:0}
+body.home-screen .home-greeting{font-size:clamp(.98rem,4.1vw,1.35rem);margin:3px 0 6px}
+body.home-screen .home-categories{display:flex;flex-direction:column;gap:5px;margin:2px 0 0;flex-shrink:0}
+body.home-screen .home-categories .home-category{min-height:50px;padding:5px 10px;border-radius:15px;grid-template-columns:43px minmax(0,1fr) 17px;gap:8px}
+body.home-screen .home-category-icon{font-size:1.45rem;min-height:30px;padding-right:6px}
+body.home-screen .home-category-label{font-size:clamp(.89rem,3.8vw,1.14rem)}
+body.home-screen .home-secondary{gap:6px;margin-top:8px;flex-shrink:0}
+body.home-screen .home-secondary .item{min-height:47px;padding:5px 3px;border-radius:14px;font-size:clamp(.58rem,2.4vw,.78rem)}
+body.home-screen .home-secondary-icon{font-size:1.25rem}
+body.home-screen .home-whatsapp .home-secondary-icon{width:24px;height:24px;font-size:.95rem}
+@media(max-height:690px){
+ body.home-screen .home-logo,:root[data-theme="dark"] body.home-screen .home-logo,:root[data-theme="light"] body.home-screen .home-logo{width:min(65vw,calc((100dvh - 430px)*.9),225px);max-width:min(65vw,calc((100dvh - 430px)*.9),225px)}
+ body.home-screen .home-categories .home-category{min-height:44px;padding:3px 8px}
+ body.home-screen .home-secondary .item{min-height:43px}
+ body.home-screen .home-greeting{margin:1px 0 3px}
+}
+/* Rev59: fondo blanco real en tema claro y emblema equilibrado en ambas vistas. */
+:root[data-theme="light"] body.home-screen{background:#fff!important;background-image:none!important}
+body.home-screen .home-logo,
+:root[data-theme="light"] body.home-screen .home-logo,
+:root[data-theme="dark"] body.home-screen .home-logo{
+ width:min(84vw,calc((100dvh - 466px)*.98),330px);
+ max-width:min(84vw,calc((100dvh - 466px)*.98),330px);
+ min-width:105px;
+ aspect-ratio:1/1;
+ flex:0 1 auto;
+}
+@media(max-height:690px){
+ body.home-screen .home-logo,
+ :root[data-theme="light"] body.home-screen .home-logo,
+ :root[data-theme="dark"] body.home-screen .home-logo{
+  width:min(68vw,calc((100dvh - 415px)*.9),235px);
+  max-width:min(68vw,calc((100dvh - 415px)*.9),235px);
+ }
+}
+:root[data-theme="light"] body.home-screen .home-logo .logo{filter:none}
+
+/* Rev61: lectura de cantos con separación moderada entre estrofas y coros. */
+body.reading .song-author{margin-bottom:12px}
+body.reading .song-zoom{margin:10px auto 17px}
+body.reading .song-content .stanza{margin:0 0 1.65em;line-height:1.48;text-align:center}
+body.reading .song-content .stanza-label{margin:0 0 .4em;line-height:1.35}
+body.reading .song-content .stanza:last-child{margin-bottom:0}
+body.reading .song-title{margin-bottom:.55em}
+
+/* Rev62: diseño de lectura inspirado en la vista ilustrativa, para las tres categorías. */
+body.reading .wrap{padding-top:0!important}
+body.reading .song-reading-header{display:grid;grid-template-columns:46px minmax(0,1fr) 46px;align-items:center;gap:8px;min-height:57px;margin:0 -20px 13px;padding:7px 15px;background:#08264b;color:#fff;box-shadow:0 2px 7px #0002}
+body.reading .song-reading-header>button{box-sizing:border-box;width:46px;height:46px;min-width:46px;min-height:46px;margin:0;padding:0;border:0;border-radius:10px;background:transparent;color:#fff;font-size:1.6rem;display:flex;align-items:center;justify-content:center}
+body.reading .song-reading-header>small{font-size:clamp(.95rem,4.5vw,1.22rem);font-weight:800;text-align:center;letter-spacing:.035em;color:#fff}
+body.reading .song-number{display:table;margin:8px auto 12px;padding:3px 17px;border:2px solid #c39a32;border-radius:13px;background:#08264b;color:white;font-size:1.45rem;line-height:1.4}
+body.reading .song-title{font-family:Georgia,serif;font-size:clamp(1.35rem,5.6vw,1.85rem);line-height:1.2;margin:0 auto 12px;color:var(--fg)}
+body.reading .song-author{margin:0 auto 15px;font-size:.86rem;font-style:italic}
+body.reading .song-zoom{margin:7px auto 18px}
+body.reading .song-content{font-family:Georgia,serif;text-align:center}
+body.reading .song-content .stanza{line-height:1.42;margin-bottom:1.55em}
+body.reading .song-content .stanza-label{font-family:system-ui,sans-serif;font-size:.91em;color:#173b80;margin:0 0 .38em}
+:root[data-theme="dark"] body.reading .song-content .stanza-label{color:#9ebcff}
+body.reading .song-nav{background:#08264b;border-top:1px solid #b99339;padding:8px 11px calc(9px + env(safe-area-inset-bottom,0px));gap:9px}
+body.reading .song-nav button{border:1px solid #e5ebf5;color:white;background:transparent;border-radius:10px;min-height:43px;font-size:.88rem}
+body.reading .song-nav button.nav-list{flex:0 0 49px;font-size:1.35rem}
+/* Encabezados de los listados, coherentes con la pantalla de lectura. */
+body:not(.reading):not(.home-screen) .song-category-header{background:#08264b;color:#fff;margin:-10px -20px 16px;padding:8px 15px}
+body:not(.reading):not(.home-screen) .song-category-header button{color:white;border-color:#8294ae}
+body:not(.reading):not(.home-screen) .song-category-header h2{color:white}
+
+/* Rev63: la barra de cantos se pega al borde inferior útil del WebView.
+   MainActivity ya separa el WebView de la navegación de Android: no sumar safe-area aquí. */
+body.reading .song-nav{position:fixed!important;bottom:0!important;top:auto!important;left:0!important;right:0!important;margin:0!important;padding:6px 10px 5px!important;min-height:0!important;transform:none!important;box-sizing:border-box!important;z-index:100!important}
+body.reading .song-nav button{min-height:40px;padding:6px 4px}
+body.reading .song-nav button.nav-list{flex:0 0 46px}
+body.reading .wrap{padding-bottom:calc(var(--song-nav-height, 56px) + 18px)!important}
+/* Rev64: Biblia al mismo borde inferior útil que la navegación de cantos (Rev63). */
+body.bible-reading .bible-bottom{position:fixed!important;bottom:0!important;top:auto!important;left:0!important;right:0!important;margin:0!important;padding:6px 10px 5px!important;min-height:0!important;transform:none!important;box-sizing:border-box!important;z-index:100!important}
+body.bible-reading .bible-bottom button{min-height:40px!important;padding:6px 4px!important;border-radius:10px}
+body.bible-reading .wrap{padding-bottom:75px!important}
+body.bible-reading .bible-verses{padding-bottom:24px}
+
+/* Revisión 65: números de capítulos y versículos uniformes y legibles. */
+.bible-chapters,.bible-verses-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.bible-chapters button,.bible-verses-grid button{
+ box-sizing:border-box;width:100%;height:56px;min-height:56px;
+ display:flex;align-items:center;justify-content:center;
+ padding:0 3px;border:1px solid var(--edge);border-radius:11px;
+ background:transparent;color:var(--fg);font-size:1.28rem;
+ font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
+}
+@media(max-width:350px){.bible-chapters,.bible-verses-grid{gap:7px}.bible-chapters button,.bible-verses-grid button{height:52px;min-height:52px;font-size:1.2rem}}
+
+/* Rev66: localizador bíblico accesible desde la barra inferior. */
+.bible-bottom .bible-locator-trigger{flex:0 0 54px;display:flex;align-items:center;justify-content:center;color:var(--fg)}
+.bible-locator-trigger svg{width:25px;height:25px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bible-locator-overlay{position:fixed;inset:0;background:var(--bg);color:var(--fg);z-index:250;overflow-y:auto;overscroll-behavior:contain;padding:0 20px 30px;box-sizing:border-box}
+.bible-locator-top{display:flex;align-items:center;gap:15px;min-height:70px;border-bottom:1px solid var(--edge);margin:0 -20px;padding:0 20px}
+.bible-locator-top button{background:none;color:var(--fg);border:0;font-size:2rem;padding:5px 8px}
+.bible-locator-top strong{font-size:1.35rem;font-weight:550}
+.bible-locator-tabs{display:grid;grid-template-columns:1fr 1fr;margin:8px 0 12px;border-bottom:1px solid var(--edge)}
+.bible-locator-tabs button{background:none;color:var(--muted);border:0;padding:15px 4px;font-size:1rem;border-bottom:3px solid transparent}
+.bible-locator-tabs button.active{color:#38bdf8;border-bottom-color:#38bdf8}
+.bible-locator-testaments{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:15px 0 18px}
+.bible-locator-testaments button{font-size:1.8rem;background:none;color:var(--fg);border:1px solid var(--edge);border-radius:12px;padding:12px 6px}
+.bible-locator-testaments button.active{border-color:#38bdf8;color:#38bdf8}
+.bible-locator-fields{display:grid;grid-template-columns:1fr;gap:15px}
+.bible-locator-fields label{display:grid;grid-template-columns:100px minmax(0,1fr);align-items:center;gap:12px;font-size:1rem}
+.bible-locator-fields select{min-width:0;width:100%;font-size:1.16rem;padding:13px 8px;border:1px solid var(--edge);border-radius:10px;background:var(--bg);color:var(--fg)}
+.bible-locator-go{width:100%;margin:23px 0 15px;padding:13px;border:1px solid #38bdf8;border-radius:12px;background:#0369a1;color:white;font-weight:800;font-size:1.05rem}
+.bible-locator-recent{margin-top:25px;border-top:1px solid var(--edge);padding-top:15px}
+.bible-locator-recent h3{font-size:1rem;font-weight:500;color:var(--muted)}
+.bible-locator-recent button{display:block;width:100%;text-align:left;background:none;color:var(--fg);border:0;border-bottom:1px solid var(--edge);padding:13px 4px;font-size:1rem}
+
+/* Rev71: referencia del libro y capítulo siempre visible durante la lectura. */
+body.bible-reading .bible-read-sticky{
+ position:fixed!important;top:0!important;left:50%!important;right:auto!important;
+ transform:translateX(-50%);width:100%;max-width:650px;
+ box-sizing:border-box;margin:0!important;padding:5px 20px 7px!important;
+ z-index:120!important;background:var(--bg);
+}
+body.bible-reading .bible-read-sticky .bible-current-chapter{
+ margin:0;padding:2px 0 5px;font-size:clamp(.88rem,3.7vw,1.05rem);
+}
+body.bible-reading .bible-sticky-spacer{height:var(--bible-sticky-height,100px)}
+body.bible-reading .bible-verses{padding-bottom:60px!important}
+body.bible-reading .wrap{padding-bottom:calc(85px + env(safe-area-inset-bottom,0px))!important}
+body.bible-reading .bible-verses section{scroll-margin-top:calc(var(--bible-sticky-height,100px) + 12px)}
+/* Rev71: número de estrofa y etiqueta CORO unidos al texto correspondiente. */
+body.reading .song-content .stanza-label{margin:0!important;padding:0!important;line-height:1.18!important}
+body.reading .song-content .stanza{margin:0 0 1.05em!important;line-height:1.42!important}
+body.reading .song-content .stanza:last-child{margin-bottom:0!important}
+
+/* Revisión 72: reserva de desplazamiento real para los cantos con zoom máximo.
+   El espacio adicional se encuentra después de la última estrofa, no entre párrafos. */
+body.reading .wrap{
+ padding-bottom:calc(var(--song-nav-height, 56px) + max(180px, 38dvh))!important;
+}
+body.reading .song-content{padding-bottom:0!important}
+body.reading .song-content .stanza:last-child{
+ margin-bottom:0!important;
+ scroll-margin-bottom:calc(var(--song-nav-height, 56px) + 32px);
+}
+body.reading{scroll-padding-bottom:calc(var(--song-nav-height, 56px) + 32px)}
+
+/* Revisión 74: localizador organizado como la referencia; controles sensibles al tema. */
+.bible-locator-overlay{background:var(--bg)!important;color:var(--fg)!important;padding:0 20px 45px}
+.bible-locator-top{min-height:74px;margin-bottom:10px}
+.bible-locator-top strong{font-size:1.35rem;font-weight:500}
+.bible-locator-tabs{margin:0 0 8px}
+.bible-locator-tabs button{padding:17px 4px;font-size:1rem}
+.locator-book-row{display:grid;grid-template-columns:1fr 1.35fr;gap:14px;align-items:center;margin:9px 0 16px}
+.bible-locator-overlay select{appearance:auto;-webkit-appearance:menulist;box-sizing:border-box;min-width:0;width:100%;background:var(--bg);color:var(--fg);border:0;border-radius:6px;padding:12px 5px;font-family:inherit;cursor:pointer}
+.bible-locator-overlay select option{background:var(--bg);color:var(--fg)}
+.locator-book-row select{font-size:clamp(1.25rem,5vw,1.8rem);text-align:center;text-align-last:center}
+.locator-number-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;row-gap:8px;margin-top:10px}
+.locator-number-fields label{font-size:1.06rem}
+.locator-number-fields select{font-size:1.75rem;text-align:center;text-align-last:center;min-height:58px}
+.locator-actions{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:19px 0 35px}
+.locator-actions button{display:flex;align-items:center;justify-content:center;background:transparent;color:var(--muted);border:0;min-height:60px;font-size:2rem}
+.locator-actions .locator-open{color:#38bdf8}
+.locator-actions svg{width:29px;height:29px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bible-locator-recent{border:0;margin-top:22px;padding-top:0}
+.bible-locator-recent h3{font-size:1rem;font-weight:400;color:var(--muted)}
+:root[data-theme="dark"] .bible-locator-overlay,:root[data-theme="dark"] .bible-locator-overlay select,:root[data-theme="dark"] .bible-locator-overlay select option{background:#101114;color:#f3f3f3;color-scheme:dark}
+:root[data-theme="light"] .bible-locator-overlay,:root[data-theme="light"] .bible-locator-overlay select,:root[data-theme="light"] .bible-locator-overlay select option{background:#fff;color:#171717;color-scheme:light}
+
+/* Revisión 75: reserva física, desplazable, tras la última estrofa.
+   A diferencia del padding de la revisión 72, este bloque existe en el flujo
+   del documento y deja al menos una pantalla completa para desplazar. */
+body.reading,body.reading html{overflow-y:auto!important}
+body.reading .wrap{height:auto!important;min-height:0!important;overflow:visible!important;padding-bottom:0!important}
+body.reading .song-tail-space{
+ display:block!important;position:relative!important;flex:none!important;
+ height:var(--song-tail-space, 110px)!important;
+ min-height:0!important;width:100%;pointer-events:none;
+}
+body.reading .song-content{overflow:visible!important}
+body.reading .song-content .stanza:last-child{margin-bottom:0!important}
+
+/* Revisión 76: lectura bíblica nítida y negra en tema blanco solamente. */
+:root[data-theme="light"] body.bible-reading .bible-verses p{
+  font-family:system-ui,-apple-system,"Roboto","Arial",sans-serif!important;
+  font-weight:700!important;
+  color:#101010!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  letter-spacing:0;
+}
+/* Mantener el contraste del versículo seleccionado sobre su fondo azul. */
+:root[data-theme="light"] body.bible-reading .bible-verses section.selected-verse p{
+  color:#fff!important;
+}
+
+/* Rev79: selectores del localizador con contraste alto y tipografía legible. */
+.bible-locator-overlay select,
+.bible-locator-overlay select option,
+.bible-locator-overlay select optgroup{
+ font-family:Roboto,"Noto Sans",system-ui,sans-serif!important;
+ font-size:1.13rem!important;
+ font-weight:700!important;
+ line-height:1.5!important;
+}
+.bible-locator-overlay .locator-number-fields select{font-size:1.65rem!important}
+:root[data-theme="dark"] .bible-locator-overlay select,
+:root[data-theme="dark"] .bible-locator-overlay select option,
+:root[data-theme="dark"] .bible-locator-overlay select optgroup{
+ background-color:#101114!important;color:#fff!important;
+ -webkit-text-fill-color:#fff!important;color-scheme:dark!important;
+}
+:root[data-theme="light"] .bible-locator-overlay select,
+:root[data-theme="light"] .bible-locator-overlay select option,
+:root[data-theme="light"] .bible-locator-overlay select optgroup{
+ background-color:#fff!important;color:#171717!important;
+ -webkit-text-fill-color:#171717!important;color-scheme:light!important;
+}
+
+/* Revisión 80: lista de selección propia; evita el diálogo blanco nativo de Android. */
+.bible-locator-overlay .locator-custom-select{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:transparent;color:inherit;border:0;min-height:64px;font-size:clamp(1.2rem,5vw,1.75rem);font-weight:750;font-family:Roboto,"Arial",sans-serif;cursor:pointer}
+.bible-locator-overlay .locator-arrow{font-size:1.2rem;font-weight:400;margin-left:auto;opacity:.85}
+.bible-locator-overlay .locator-book-row .locator-custom-select{padding:0 12px}
+.bible-locator-overlay .locator-number-fields .locator-custom-select{font-size:1.8rem}
+.locator-choice-backdrop{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:18px}
+.locator-choice-panel{display:flex;flex-direction:column;width:min(100%,520px);max-height:min(82dvh,850px);background:#101114;color:#fff;border:1px solid #41444b;border-radius:13px;overflow:hidden;box-shadow:0 14px 40px #0008;font-family:Roboto,Arial,sans-serif}
+.locator-choice-title{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #35383e;font-size:1.15rem}
+.locator-choice-title button{background:none;color:inherit;border:0;font-size:1.4rem;padding:6px 12px}
+.locator-choice-items{overflow-y:auto;overscroll-behavior:contain}
+.locator-choice-item{width:100%;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 22px;background:#101114;color:#fff;border:0;border-bottom:1px solid #303238;text-align:left;font:750 1.12rem/1.35 Roboto,Arial,sans-serif}
+.locator-choice-item.active{background:#202b37}
+.locator-choice-check{font-size:1.35rem;color:#38bdf8;flex:none}
+:root[data-theme="light"] .locator-choice-panel{background:#fff;color:#171717;border-color:#d2d2d2}
+:root[data-theme="light"] .locator-choice-item{background:#fff;color:#171717;border-color:#ddd}
+:root[data-theme="light"] .locator-choice-item.active{background:#e7f4fc}
+:root[data-theme="light"] .locator-choice-title{border-color:#ddd}
+
+/* Rev 81: flecha de regreso de Apuntes igual al selector de tema, en todas sus vistas. */
+.notes-header .notes-back-btn,
+body:has(.notes-editor) .bible-header .bible-back-btn,
+body:has(.notes-content) .bible-header .bible-back-btn{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+ width:46px;height:46px;min-width:46px;min-height:46px;
+ margin:0;padding:0;border-radius:12px;font-size:1.35rem;line-height:1;
+ border:1px solid var(--edge);background:transparent;color:var(--fg);
+}
+.home-logo[role="button"]{cursor:pointer}.home-logo[role="button"]:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.bible-locator-overlay .locator-testament-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0 8px}
+.bible-locator-overlay .locator-testament-tabs button{min-height:54px;padding:9px 5px;border:1px solid var(--edge);border-radius:8px;background:var(--bg);color:var(--fg);font:700 clamp(.83rem,3.7vw,1.05rem)/1.25 Roboto,Arial,sans-serif;white-space:normal}
+.bible-locator-overlay .locator-testament-tabs button.active{background:#17658c;border-color:#38bdf8;color:#fff}
+.bible-locator-overlay .locator-book-full{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:8px 0}
+.bible-locator-overlay .locator-book-full label{font-size:1.06rem}
+.bible-locator-overlay .locator-book-full button{min-width:0;overflow-wrap:anywhere;font-size:clamp(1rem,4.5vw,1.45rem)}
+ body.reading .song-reading-header{grid-template-columns:46px minmax(0,1fr) 46px 46px}body.reading .song-reading-header>#fav92,body.reading .song-reading-header>.theme-toggle{box-sizing:border-box;width:46px;height:46px;min-width:46px;min-height:46px;max-width:46px;max-height:46px;padding:0;margin:0;font-size:1.6rem;line-height:1;display:flex;align-items:center;justify-content:center;color:#fff}body.reading .song-reading-header>#fav92[aria-pressed="true"]{color:#e6b440}body.reading .song-title{display:block;width:100%;box-sizing:border-box;text-align:center;margin-left:auto;margin-right:auto}.marked92{background:#c59a423d!important;border-left:3px solid #c59a42}.ref92{display:inline!important;padding:0!important;background:transparent!important;color:#3498db!important;text-decoration:underline;border:0!important;font:inherit}.home-tools{gap:8px}details{padding:12px 4px;border-bottom:1px solid #8885}details summary{cursor:pointer}details label{display:block;padding:10px}
+/* Rev95: configuración independiente del cambio de tema. */
+body.home-screen .home-tools{display:flex;justify-content:space-between;align-items:center;height:46px;min-height:46px;gap:8px}
+body.home-screen .home-tools>button.home-settings,body.home-screen .home-tools>button.theme-toggle{box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex:0 0 46px;width:46px;height:46px;min-width:46px;min-height:46px;max-width:46px;max-height:46px;margin:0;padding:0;border-radius:12px;border:1px solid #2788c0;background:#082842a8;color:#fff;font-size:1.6rem;line-height:1}
+:root[data-theme="light"] body.home-screen .home-tools>button.home-settings,:root[data-theme="light"] body.home-screen .home-tools>button.theme-toggle{background:#fff;color:#0d3353}
+
+.bible-header .bible-notes-button{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:46px;height:46px;min-width:46px;min-height:46px;padding:0;border-radius:12px;color:var(--fg);border:1px solid var(--edge);background:transparent;line-height:1}
+
+/* Rev100: sangría uniforme de títulos en todas las listas de cantos. */
+button.item.song-list-entry{display:grid;grid-template-columns:40px minmax(0,1fr);gap:0;align-items:start;text-align:left}
+.song-list-entry .num{min-width:0;display:block}
+.song-list-title,.index-entry>span{min-width:0;overflow-wrap:anywhere;text-align:left}
+
+body.home-screen button.home-greeting{display:block;width:auto;margin-left:auto;margin-right:auto;padding:0;border:0;background:transparent;min-height:0;box-shadow:none}
+body.peace101 .wrap{box-sizing:border-box;padding:10px 16px 12px!important;height:auto!important;min-height:0!important;overflow:visible!important}
+.peace101-list{display:flex;flex-direction:column;gap:var(--peace-gap,12px);text-align:center;font-size:var(--peace-font,16px);line-height:1.28}
+.peace101-list article{margin:0;padding:0}.peace101-list h3{font-size:1em;color:#ffbd49;margin:0 0 4px;font-weight:800}.peace101-list p{margin:0}.peace101-title{color:#ffbd49!important;text-align:center;font-size:1.15rem;margin:8px 0 12px}
+:root[data-theme="light"] .peace101-list h3,:root[data-theme="light"] .peace101-title{color:#946500!important}
+
+.church102-nav{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;background:#111216;margin-top:10px}.church102-nav button{padding:8px 12px;min-height:40px}.church102-nav button:disabled{opacity:.4}:root[data-theme="light"] .church102-nav{background:#fff}
+
+/* PWA iOS */
+body{padding-top:env(safe-area-inset-top,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+body.reading .song-nav,body.bible-reading .bible-bottom{padding-bottom:calc(5px + env(safe-area-inset-bottom,0px))!important}
+input,textarea,select{font-size:16px!important}
+</style></head><body><main class="wrap" id="app"></main>
+<script>
+(function(){
+ function share(text){if(navigator.share){navigator.share({text:text}).catch(e=>{if(e.name!=='AbortError')copy(text)});}else copy(text);}
+ function copy(text){if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>alert('Texto copiado.')).catch(()=>prompt('Copia el texto:',text));}else prompt('Copia el texto:',text);}
+ window.IDRM={share:share,copyText:copy,shareApk:function(){const url=new URL('./',location.href).href;if(navigator.share)navigator.share({title:'IDRM',url:url}).catch(e=>{if(e.name!=='AbortError')copy(url)});else copy(url);},exportNotes:function(text){const name='IDRM-'+(JSON.parse(text).format==='IDRM-respaldo'?'respaldo':'apuntes')+'.idrm';const file=new File([text],name,{type:'application/json'});if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file]}).catch(e=>{if(e.name!=='AbortError')download(file,name)});}else download(file,name);},importNotes:function(){const input=document.createElement('input');input.type='file';input.accept='.idrm,.json,.bin,application/json,application/octet-stream';input.onchange=async()=>{const file=input.files[0];if(!file)return;if(file.size>20000000)return alert('Archivo demasiado grande.');try{receiveNotesBackup(await file.text())}catch(e){alert('No se pudo leer el archivo.')}};input.click();}};
+ function download(file,name){const url=URL.createObjectURL(file),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+ if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(e=>console.error('Modo sin conexión',e));}
+})();
+</script>
+<script>
+let catalog={},letras={},indiceHimnario=[],cat=null,previousView='category',view='home',currentSong=null;const $=document.getElementById('app');const cats={himnos:'HIMNARIO',especiales:'CANTOS ESPECIALES',estribillos:'ESTRIBILLERO',biblia:'SANTA BIBLIA'};
+let savedSongList=null;
+function rememberSongList(){
+  if(!['category','index','favorites'].includes(view))return;
+  const q=document.getElementById('q');
+  savedSongList={cat,view,query:q?q.value:'',scrollY:window.scrollY||document.documentElement.scrollTop||0};
+}
+function restoreSongList(){
+  const saved=savedSongList;
+  if(!saved||saved.cat!==cat)return;
+  const q=document.getElementById('q');
+  if(q){q.value=saved.query;renderList(saved.view==='index');}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    window.scrollTo(0,saved.scrollY);
+  }));
+}
+const songFontKeys98=['himnos','especiales','estribillos'].map(k=>'idrm_song_font_'+k);
+function readSongFont98(k){try{let v=Number(localStorage.getItem('idrm_song_font_'+k)||localStorage.getItem('idrm_song_font')||1);return Number.isFinite(v)?Math.max(.8,Math.min(1.9,v)):1}catch(e){return 1}}
+let songFont=1;
+let bibleBooks=[],bibleFont=1.1,bibleBook=null,bibleChapter=1;try{bibleFont=Number(localStorage.getItem('bibleFont'))||1.1}catch(e){}
+let theme='light';try{theme=localStorage.getItem('idrm_theme')==='dark'?'dark':'light'}catch(e){}
+function applyTheme(){document.documentElement.dataset.theme=theme;document.querySelectorAll('.home-logo .logo').forEach(img=>img.src=theme==='dark'?'logo_dark.png':'logo_light_blended.png');document.querySelectorAll('button.theme-toggle[onclick="toggleTheme()"]').forEach(b=>{b.textContent=theme==='dark'?'☀':'☾';b.title=theme==='dark'?'Cambiar a modo claro':'Cambiar a modo oscuro';b.setAttribute('aria-label',b.title)})}
+function toggleTheme(){theme=theme==='dark'?'light':'dark';try{localStorage.setItem('idrm_theme',theme)}catch(e){}applyTheme()}
+function themeButton(){return '<button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar modo claro u oscuro">☾</button>'}
+const observer=new MutationObserver(applyTheme);observer.observe(document.getElementById('app'),{childList:true,subtree:false});applyTheme();
+function esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fitHomeToScreen(){
+ if(!document.body.classList.contains('home-screen'))return;
+ const wrap=document.querySelector('body.home-screen .wrap');if(!wrap)return;
+ wrap.style.zoom='1';wrap.style.height='auto';wrap.style.overflow='visible';if(!CSS.supports('zoom','1'))return;
+ const available=document.documentElement.clientHeight;
+ const needed=wrap.scrollHeight;
+ if(needed>available+1){
+   const factor=Math.max(.68,Math.min(1,(available-5)/needed));
+   wrap.style.zoom=String(factor);
+   wrap.style.height=(available/factor)+'px';
+ }else{wrap.style.height='100dvh';}
+}
+window.addEventListener('resize',()=>{if(view==='home')requestAnimationFrame(fitHomeToScreen)});
+let logoBibleEntry=false;
+const churchRefs102=[[52, 2, 14], [46, 1, 2], [52, 1, 1], [53, 1, 1], [48, 1, 22], [44, 20, 28], [47, 1, 1], [46, 10, 32], [46, 15, 9], [48, 1, 13], [54, 3, 5], [54, 3, 15]];
+async function openLogoVerse(){try{if(!bibleBooks.length){const r=await fetch('biblia_texto.json');if(!r.ok)throw Error();bibleBooks=await r.json()}if(view==='home')churchPage102(0)}catch(e){alert('No se pudieron abrir los textos bíblicos.')}}
+function churchPage102(page){if(page!==0&&page!==1)return;const content=churchRefs102.slice(page*6,page*6+6).map(([id,ch,v])=>{const b=bibleBooks.find(x=>x.id===id);return `<article><h3>${esc(b.nombre)} ${ch}:${v}</h3><p>${esc(b.capitulos[String(ch)][String(v)])}</p></article>`}).join('');document.body.classList.remove('home-screen','reading','bible-reading');document.body.classList.add('peace101','church102');view='church102';$.style.zoom='1';$.style.height='auto';$.style.overflow='visible';$.innerHTML=`<div class="bar bible-header"><button class="bible-back-btn" onclick="home()" aria-label="Regresar">←</button><h2 class="peace101-title">IGLESIA DE DIOS</h2>${themeButton()}</div><section class="peace101-list">${content}</section><nav class="church102-nav"><button onclick="churchPage102(0)" ${page===0?'disabled':''}>Anterior</button><span>${page+1} de 2</span><button onclick="churchPage102(1)" ${page===1?'disabled':''}>Siguiente</button></nav>`;applyTheme();window.scrollTo(0,0);requestAnimationFrame(fitPeace101)}
+function backFromBibleReading(){if(noteReturn92){let n=noteReturn92;noteReturn92=null;viewNote(n);return}if(planReturn92){planReturn92=false;plan92();return}if(logoBibleEntry){home()}else{openBibleVerses(bibleBook,bibleChapter)}}
+
+function fitPeace101(){if(view!=='peace101'&&view!=='church102')return;const list=document.querySelector('.peace101-list');if(!list)return;for(let size=18;size>=14;size-=0.5){list.style.setProperty('--peace-font',size+'px');list.style.setProperty('--peace-gap',Math.max(8, size-5)+'px');if($.getBoundingClientRect().bottom<=document.documentElement.clientHeight)break;}}
+window.addEventListener('resize',()=>{if(view==='peace101'||view==='church102')requestAnimationFrame(fitPeace101)});
+async function openPeace101(){try{if(!bibleBooks.length){const r=await fetch('biblia_texto.json');if(!r.ok)throw Error();bibleBooks=await r.json()}if(view!=='home')return;const refs=[[1,43,23],[42,24,36],[43,20,19],[43,20,21],[43,20,26]];const content=refs.map(([id,ch,v])=>{const b=bibleBooks.find(x=>x.id===id);const t=b?.capitulos?.[String(ch)]?.[String(v)];if(!t)throw Error();return `<article><h3>${esc(b.nombre)} ${ch}:${v}</h3><p>${esc(t)}</p></article>`}).join('');document.body.classList.remove('home-screen','reading','bible-reading');document.body.classList.add('peace101');view='peace101';$.style.zoom='1';$.style.height='auto';$.style.overflow='visible';$.innerHTML=`<div class="bar bible-header"><button class="bible-back-btn" onclick="home()" aria-label="Regresar">←</button><h2 class="peace101-title">¡PAZ A VOSOTROS!</h2>${themeButton()}</div><section class="peace101-list">${content}</section>`;applyTheme();window.scrollTo(0,0);requestAnimationFrame(fitPeace101)}catch(e){alert('No se pudieron abrir los textos bíblicos.')}}
+function home(){document.body.classList.remove('peace101','church102');logoBibleEntry=false;document.body.classList.remove('reading','bible-reading');document.body.classList.add('home-screen');view='home';const icons={himnos:'📖',especiales:'♫',estribillos:'♫',biblia:'📖'};$.innerHTML='<div class="bar home-tools"><button class="home-settings" onclick="settings92()" title="Configuración" aria-label="Configuración">⚙</button>'+themeButton()+'</div><picture class="home-logo" role="button" tabindex="0" aria-label="Leer textos de Iglesia de Dios" onclick="openLogoVerse()" onkeydown="if(event.key===&quot;Enter&quot;||event.key===&quot; &quot;){event.preventDefault();openLogoVerse()}"><img class="logo" src="logo_light_blended.png" alt="Logotipo de la Iglesia de Dios en Cristo Jesús Remanente de México"></picture><div class="home-slogan"><button class="minister-contact-trigger" onclick="showMinisterContact()" aria-label="Ver WhatsApp y ubicación del ministro">Min. Elimeleth Luna Coria</button><button class="home-greeting" onclick="openPeace101()" aria-label="Leer textos de Paz a vosotros">¡Paz a Vosotros!</button></div><div class="home-categories">'+Object.entries(cats).map(([k,v])=>`<button class="item home-category" onclick="openCat('${k}')"><span class="home-category-icon" aria-hidden="true">${icons[k]}</span><span class="home-category-label">${v}</span><span class="home-category-chevron" aria-hidden="true">❯</span></button>`).join('')+'<button class="item home-category" onclick="openAudioTopics()"><span class="home-category-icon" aria-hidden="true">🎧</span><span class="home-category-label">TEMAS EN AUDIO</span><span class="home-category-chevron" aria-hidden="true">❯</span></button></div><div class="home-secondary"><button class="item home-share" onclick="shareApk()"><span class="home-secondary-icon" aria-hidden="true">●</span><span>COMPARTIR<br>APLICACIÓN</span></button><button class="item home-whatsapp" onclick="joinWhatsApp()"><span class="home-secondary-icon" aria-hidden="true">☎</span><span>UNIRME AL GRUPO<br>DE WHATSAPP</span></button></div>';requestAnimationFrame(fitHomeToScreen)}
+function showMinisterContact(){
+ const existing=document.getElementById('minister-contact-overlay');if(existing)existing.remove();
+ const overlay=document.createElement('div');overlay.id='minister-contact-overlay';overlay.className='bible-action-overlay';
+ overlay.innerHTML=`<div class="bible-action-dialog minister-contact-dialog" role="dialog" aria-modal="true" aria-label="Contacto del ministro"><button onclick="openMinisterWhatsApp()">Contactar</button><button onclick="openMinisterLocation()">Domicilio</button></div>`;
+ overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});document.body.appendChild(overlay);
+}
+function closeMinisterContact(){document.getElementById('minister-contact-overlay')?.remove()}
+function openMinisterWhatsApp(){if(window.IDRM?.openMinisterWhatsApp)window.IDRM.openMinisterWhatsApp();else window.location.href='https://api.whatsapp.com/send?phone=529831370630'}
+function openMinisterLocation(){if(window.IDRM?.openMinisterLocation)window.IDRM.openMinisterLocation();else window.location.href='https://maps.app.goo.gl/Bq9831YWGvWxGokw5'}
+function shareApk(){if(window.IDRM?.shareApk)window.IDRM.shareApk();else alert('Esta opción está disponible en la aplicación Android instalada.')}
+function openAudioTopics(){if(window.IDRM?.openAudioTopics)window.IDRM.openAudioTopics();else window.open('https://drive.google.com/drive/folders/1ouzy0tWc3gLdDgZT0eDknDd0I0egm0TY','_blank')}
+function joinWhatsApp(){if(window.IDRM?.openWhatsAppGroup)window.IDRM.openWhatsAppGroup();else window.open('https://chat.whatsapp.com/FXZ53zVjoa0KrDRzCSu4NH?s=sh&p=a&iam=2','_blank')}
+function openCat(k){document.body.classList.remove('home-screen');if(k==='biblia'){openBible();return;}document.body.classList.remove('reading');window.scrollTo(0,0);cat=k;view='category';$.innerHTML=`<div class="bar song-category-header"><button onclick="home()">←</button><h2>${cats[k]}</h2>${themeButton()}</div><input id="q" placeholder="Buscar título, número o parte de la letra" oninput="renderList(false)"><button class="item" onclick="favorites92()">★ FAVORITOS</button><button class="item" onclick="showIndex()">Índice alfabético</button><section id="list"></section>`;renderList(false)}
+function showIndex(){document.body.classList.remove('reading');window.scrollTo(0,0);view='index';$.innerHTML=`<div class="bar song-category-header"><button onclick="openCat('${cat}')">←</button><h2>Índice alfabético</h2>${themeButton()}</div><input id="q" placeholder="Buscar título, número o parte de la letra" oninput="renderList(true)"><section id="list"></section>`;renderList(true)}
+function normalizeSearch(t){return String(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es')}
+// Índice en memoria: busca también fragmentos de estrofas y coros sin internet.
+const songSearchCache=new Map();
+function songSearchText(category,number){
+ const key=category+':'+number;
+ if(songSearchCache.has(key))return songSearchCache.get(key);
+ const stanzas=letras[category]?.[number]?.estrofas||[];
+ const content=stanzas.map(b=>[b.etiqueta,b.texto].filter(Boolean).join(' ')).join(' ');
+ // Ignora acentos, signos y saltos de línea; permite recordar un pedacito del canto.
+ const normalized=normalizeSearch(content).replace(/[^a-z0-9ñ]+/g,' ').replace(/\\s+/g,' ').trim();
+ songSearchCache.set(key,normalized);
+ return normalized;
+}
+function matchesSong(s,query){
+ if(!query)return true;
+ const raw=normalizeSearch(query).trim();
+ const plain=raw.replace(/[^a-z0-9ñ]+/g,' ').replace(/\\s+/g,' ').trim();
+ if(!plain)return true;
+ return String(s.numero).includes(raw)||normalizeSearch(s.titulo).includes(raw)||
+   normalizeSearch(s.titulo).replace(/[^a-z0-9ñ]+/g,' ').includes(plain)||
+   songSearchText(cat,s.numero).includes(plain);
+}
+function alphabeticKey(title){
+  return normalizeSearch(title).replace(/^[^a-z0-9]+/g,'').trim();
+}
+function renderAlphabeticIndex(){
+  const q=normalizeSearch(document.getElementById('q').value.trim());
+  const entries=(cat==='himnos'&&indiceHimnario.length?indiceHimnario:(catalog[cat]||[]))
+    .filter(s=>matchesSong(s,q))
+    .slice().sort((a,b)=>alphabeticKey(a.titulo).localeCompare(alphabeticKey(b.titulo),'es',{sensitivity:'base'})||a.numero-b.numero);
+  const groups=new Map();
+  for(const s of entries){
+    const first=alphabeticKey(s.titulo).charAt(0).toUpperCase()||'#';
+    const letter=/^[A-Z]$/.test(first)?first:'#';
+    if(!groups.has(letter))groups.set(letter,[]);
+    groups.get(letter).push(s);
+  }
+  document.getElementById('list').innerHTML=[...groups].map(([letter,items])=>
+    `<section class="alpha-group"><h3 class="alpha-heading">${letter}</h3>${items.map(s=>
+    `<button class="index-entry" onclick="openSong(${s.numero})"><span>${esc(s.titulo)}</span><strong>${s.numero}</strong></button>`
+    ).join('')}</section>`).join('')||'<p>No se encontraron cantos.</p>';
+}
+function renderList(alpha){
+  if(alpha){renderAlphabeticIndex();return;}
+  let items=(catalog[cat]||[]).slice().sort((a,b)=>a.numero-b.numero);
+  const q=normalizeSearch(document.getElementById('q').value);
+  items=items.filter(s=>matchesSong(s,q)&&(view!=='favorites'||isFav92(s.numero)));
+  document.getElementById('list').innerHTML=items.map(s=>`<button class="item song-list-entry" onclick="openSong(${s.numero})"><span class="num">${s.numero}.</span><span class="song-list-title">${esc(s.titulo)} ›</span></button>`).join('')||'<p>No se encontraron cantos.</p>';
+}
+function renderLyrics(s){let v=letras[cat]?.[s.numero]?.estrofas;if(!v)return `<p class="hint center">No se pudo cargar la letra de este canto.</p>`;return v.map(b=>`<section class="stanza"><div class="stanza-label">${esc(b.etiqueta)}</div>${esc(b.texto)}</section>`).join('')}
+function changeSongFont(step){songFont=Math.max(.8,Math.min(1.9,Math.round((songFont+step)*100)/100));try{localStorage.setItem('idrm_song_font_'+cat,String(songFont))}catch(e){}document.querySelectorAll('.song-content').forEach(el=>el.style.fontSize=songFont+'rem');requestAnimationFrame(updateSongNavSpace)}
+function updateSongNavSpace(){
+ const nav=document.querySelector('body.reading .song-nav');
+ if(!nav)return;
+ const h=Math.ceil(nav.getBoundingClientRect().height);
+ if(h>0)document.documentElement.style.setProperty('--song-nav-height',h+'px');
+ // 0.8rem -> reserva pequeña; 1.9rem -> una pantalla completa + barra.
+ // Cada pulsación de zoom interpola la reserva sin saltos bruscos.
+ // 12 niveles: 0.8, 0.9, ..., 1.9 rem. Son exactamente 11 incrementos.
+ // Distribuir la reserva total en once porciones iguales (sin saltos).
+ const zoomStep=Math.max(0,Math.min(11,Math.round((songFont-.8)*10)));
+ const viewport=window.innerHeight||document.documentElement.clientHeight||700;
+ const minSpace=Math.max(h+30,90);
+ const maxSpace=viewport+h+80;
+ const space=Math.round(minSpace+(maxSpace-minSpace)*zoomStep/11);
+ document.documentElement.style.setProperty('--song-tail-space',space+'px');
+}
+window.addEventListener('resize',()=>{if(document.body.classList.contains('reading'))updateSongNavSpace()});
+function openSong(n){if(view!=='song'){rememberSongList();previousView=view;}window.scrollTo(0,0);let s=(catalog[cat]||[]).find(x=>x.numero===n);if(!s)return;songFont=readSongFont98(cat);currentSong=n;view='song';document.body.classList.add('reading');$.innerHTML=`<div class="bar song-reading-header"><button onclick="returnToList()">←</button><small>${cats[cat]}</small><button id="fav92" aria-label="Favorito" aria-pressed="${isFav92(n)}" onclick="toggleFav92()">${isFav92(n)?'★':'☆'}</button>${themeButton()}</div><div class="song-number">${s.numero}</div><h2 class="song-title">${esc(s.titulo)}</h2>${letras[cat]?.[s.numero]?.autor?`<p class="song-author">${esc(letras[cat][s.numero].autor)}</p>`:""}<div class="song-zoom" aria-label="Ajustar tamaño de letra"><button onclick="changeSongFont(-.1)" aria-label="Reducir letras">🔎−</button><span>Tamaño de letra</span><button onclick="changeSongFont(.1)" aria-label="Aumentar letras">🔎＋</button></div><div class="song-content" style="font-size:${songFont}rem">${renderLyrics(s)}</div><div class="song-tail-space" aria-hidden="true"></div><nav class="song-nav" aria-label="Navegación de cantos"><button onclick="move(-1)" aria-label="Canto anterior">‹ Anterior</button><button class="nav-list" aria-label="Lista de cantos" onclick="returnToList()">☷</button><button onclick="move(1)" aria-label="Canto siguiente">Siguiente ›</button></nav>`;requestAnimationFrame(updateSongNavSpace)}
+function returnToList(){if(previousView==='index')showIndex();else if(previousView==='favorites')favorites92();else openCat(cat);restoreSongList()}
+function idrmBack(){const actionMenu=document.getElementById('bible-action-overlay');if(actionMenu){actionMenu.remove();cancelBibleHold();bibleHoldFired=false;window.getSelection()?.removeAllRanges();return;}if(view==='favorites'){openCat(cat);return}if(view==='plan92'){openBible();return}if(view==='settings92'){home();return}if(view==='bible-note-edit')cancelNote();else if(view==='bible-note-view')openNotes();else if(view==='bible-notes')notesBack92();else if(view==='bible-read')backFromBibleReading();else if(view==='bible-verse-menu')openBibleBook(bibleBook);else if(view==='bible-book')openBibleTestament(bibleBooks.find(b=>b.id===bibleBook)?.testamento||'Antiguo Testamento');else if(view==='bible-testament')openBible();else if(view==='bible-search')openBible();else if(view==='bible')home();else if(view==='song')returnToList();else if(view==='index')openCat(cat);else if(view==='category')home();else home();}
+function shareSong(){let s=(catalog[cat]||[]).find(x=>x.numero===currentSong);if(!s)return;let v=letras[cat]?.[s.numero]?.estrofas||[];let txt=s.numero+'. '+s.titulo+'\n\n'+v.map(x=>(x.etiqueta?x.etiqueta+'\n':'')+x.texto).join('\n\n');if(window.IDRM && window.IDRM.share)window.IDRM.share(txt);else if(navigator.share)navigator.share({title:s.titulo,text:txt}).catch(()=>{});else navigator.clipboard?.writeText(txt)}
+function move(d){let items=(catalog[cat]||[]).filter(s=>previousView!=='favorites'||isFav92(s.numero)).slice().sort((a,b)=>a.numero-b.numero);let i=items.findIndex(x=>x.numero===currentSong);if(items[i+d])openSong(items[i+d].numero)}
+
+/* Revisión 20: Biblia local, sin publicidad ni conexión a servidores. */
+function bibleHeader(title,back){return `<div class="bar bible-header"><button class="bible-back-btn" onclick="${back}" aria-label="Regresar">←</button><h2>${esc(title)}</h2>${themeButton()}</div>`}
+function openBible(){logoBibleEntry=false;document.body.classList.remove('home-screen');document.body.classList.remove('reading');view='bible';window.scrollTo(0,0);$.innerHTML=bibleHeader('SANTA BIBLIA','home()')+`<p class="hint center">Texto bíblico histórico en español · Edición exacta pendiente de identificar</p><button class="item" onclick="openBibleSearch()">⌕ Buscar palabras o referencia</button><div class="bible-testaments"><button class="item" onclick="openBibleTestament('Antiguo Testamento')">ANTIGUO TESTAMENTO ›</button><button class="item" onclick="openBibleTestament('Nuevo Testamento')">NUEVO TESTAMENTO ›</button></div><button class="item" onclick="continue92()">CONTINUAR LECTURA</button><button class="item" onclick="plan92()">PLAN DE LECTURA BÍBLICA</button><div class="bible-notes-center"><button class="item" onclick="openNotes()">📝 APUNTES ›</button></div>`}
+/* Revisión 24: notas bíblicas privadas, persistentes en este dispositivo. */
+const NOTES_KEY='idrm_bible_notes_v1';
+let editingNoteId=null;
+function getNotes(){try{let a=JSON.parse(localStorage.getItem(NOTES_KEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
+function storeNotes(a){try{localStorage.setItem(NOTES_KEY,JSON.stringify(a));return true}catch(e){alert('No fue posible guardar. Revisa el espacio disponible en tu teléfono.');return false}}
+function noteDate(v){try{return new Date(v).toLocaleDateString('es-MX',{year:'numeric',month:'short',day:'numeric'})}catch(e){return ''}}
+let selectedNotes=new Set();
+function openNotes(){selectedNotes.clear();document.body.classList.remove('reading','bible-reading');renderNotes();window.scrollTo(0,0);requestAnimationFrame(()=>{if(view==='bible-notes')window.scrollTo(0,0)})}
+function exportNotes(){const notes=getNotes().filter(n=>selectedNotes.has(n.id));if(!notes.length)return alert('Selecciona al menos un apunte para exportar.');if(window.IDRM?.exportNotes)window.IDRM.exportNotes(JSON.stringify({format:'IDRM-apuntes',version:1,notes},null,2));else alert('Disponible en la aplicación Android.');}
+function importNotes(){if(window.IDRM?.importNotes)window.IDRM.importNotes();else alert('Disponible en la aplicación Android.');}
+function receiveNotesBackup(text){try{const data=JSON.parse(text);if(data.format==='IDRM-respaldo'){restore92(data);return;}if(data.format!=='IDRM-apuntes'||data.version!==1||!Array.isArray(data.notes)||data.notes.length>10000)throw Error();const incoming=data.notes;if(!incoming.every(n=>n&&typeof n.title==='string'&&n.title.trim()&&typeof n.body==='string'&&n.body.trim()))throw Error();const all=getNotes();const keys=new Set(all.map(n=>JSON.stringify([n.title,n.body])));let count=0;for(const n of incoming){const key=JSON.stringify([n.title,n.body]);if(keys.has(key))continue;keys.add(key);all.push({id:'n'+Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+count,title:n.title,body:n.body,updated:Number.isFinite(n.updated)?n.updated:Date.now()});count++;}if(!count)return alert('No hay apuntes nuevos.');if(!confirm('¿Importar '+count+' apuntes nuevos? Se conservarán tus apuntes actuales.'))return;if(storeNotes(all)){openNotes();alert('Apuntes importados: '+count);}}catch(e){alert('El archivo no es un respaldo válido de IDRM.');}}
+function renderNotes(){view='bible-notes';document.body.classList.remove('reading');let notes=getNotes().sort((a,b)=>b.updated-a.updated);$.innerHTML=`<div class="bar notes-header"><button class="notes-back-btn" onclick="notesBack92()" aria-label="Regresar">←</button><h2 class="notes-header-title">APUNTES</h2><div class="notes-top-actions"><button class="notes-top-add" onclick="editNote()" aria-label="Crear nuevo apunte" title="Nuevo apunte">＋</button>${themeButton()}</div></div><p class="hint">Selecciona uno o varios temas para exportarlos juntos. Usa ABRIR para leer o editar.</p><div class="notes-actions"><button id="notes-export" onclick="exportNotes()">EXPORTAR (${selectedNotes.size})</button><button onclick="importNotes()">IMPORTAR</button></div><div class="notes-list">${notes.map(n=>`<div class="item notes-item"><label class="note-select-label"><input type="checkbox" ${selectedNotes.has(n.id)?'checked':''} onchange="toggleNoteSelection('${n.id}',this.checked)"><span><span class="notes-title">${esc(n.title)}</span><span class="notes-date">Actualizado: ${noteDate(n.updated)}</span></span></label><button class="note-open-btn" onclick="viewNote('${n.id}')">ABRIR ›</button></div>`).join('')||'<p class="hint center">Todavía no hay apuntes guardados.</p>'}</div><div class="notes-actions"><button id="notes-send-selected" onclick="shareSelectedNotes()" ${selectedNotes.size?'':'disabled'}>↗ ENVIAR SELECCIONADOS (${selectedNotes.size})</button><button onclick="selectAllNotes()">SELECCIONAR TODOS</button><button onclick="selectedNotes.clear();renderNotes()">LIMPIAR SELECCIÓN</button></div>`}
+function selectAllNotes(){selectedNotes=new Set(getNotes().map(n=>n.id));renderNotes()}
+function toggleNoteSelection(id,checked){if(checked)selectedNotes.add(id);else selectedNotes.delete(id);const exp=document.getElementById('notes-export');if(exp)exp.textContent='EXPORTAR ('+selectedNotes.size+')';let btn=document.getElementById('notes-send-selected');if(btn){btn.disabled=!selectedNotes.size;btn.textContent='↗ ENVIAR SELECCIONADOS ('+selectedNotes.size+')'}}
+function shareSelectedNotes(){let notes=getNotes().filter(n=>selectedNotes.has(n.id));if(!notes.length){alert('Selecciona al menos un apunte.');return}let content=notes.map(n=>'Tema bíblico: '+n.title+'\n\nTEXTOS\n'+n.body).join('\n\n────────────\n\n');if(window.IDRM?.share)window.IDRM.share(content);else if(navigator.share)navigator.share({text:content}).catch(()=>{});else if(navigator.clipboard?.writeText)navigator.clipboard.writeText(content).then(()=>alert('Apuntes copiados para compartir.'));else prompt('Copia el texto:',content)}
+
+function editNote(id){let n=id?getNotes().find(x=>x.id===id):null;editingNoteId=n?n.id:null;view='bible-note-edit';window.scrollTo(0,0);$.innerHTML=bibleHeader(n?'EDITAR APUNTE':'NUEVO APUNTE',n?`viewNote('${n.id}')`:'openNotes()')+`<div class="notes-editor"><div class="note-topic-row"><label for="note-title">TEMA BÍBLICO</label><input id="note-title" maxlength="150" placeholder="Nombre del tema" value="${esc(n?.title||'')}"></div><label class="note-text-heading" for="note-body">TEXTOS</label><textarea id="note-body" placeholder="Escribe aquí los textos, referencias y comentarios de tu tema bíblico..."></textarea><div class="notes-toolbar"><button class="note-save" onclick="saveNote()">GUARDAR</button><button class="note-add" onclick="newNoteFromEditor()" aria-label="Agregar nuevo apunte" title="Agregar nuevo apunte">＋</button><button class="note-share" onclick="shareNoteDraft()">↗ ENVIAR</button></div><div class="notes-actions"><button onclick="cancelNote()">VOLVER A APUNTES</button></div></div>`;document.getElementById('note-body').value=n?.body||''}
+function newNoteFromEditor(){let title=document.getElementById('note-title')?.value.trim()||'',body=document.getElementById('note-body')?.value.trim()||'';if(title||body){if(!confirm('¿Crear otro apunte? Guarda el actual antes de continuar. Los cambios sin guardar se perderán.'))return}editNote()}
+function shareNoteDraft(){let title=document.getElementById('note-title')?.value.trim()||'',body=document.getElementById('note-body')?.value.trim()||'';if(!title&&!body){alert('Escribe un tema bíblico o algún texto antes de enviarlo.');return}let content=(title?'Tema bíblico: '+title:'Tema bíblico')+'\n\nTEXTOS\n'+body;if(window.IDRM?.share){window.IDRM.share(content)}else if(navigator.share){navigator.share({text:content}).catch(()=>{})}else if(navigator.clipboard?.writeText){navigator.clipboard.writeText(content).then(()=>alert('Texto copiado. Puedes pegarlo en WhatsApp.')).catch(()=>prompt('Copia el texto:',content))}else prompt('Copia el texto:',content)}
+
+function appConfirm(message,onYes){const old=document.getElementById('idrm-confirm');if(old)old.remove();const overlay=document.createElement('div');overlay.id='idrm-confirm';overlay.className='bible-action-overlay';overlay.innerHTML='<div class="bible-action-dialog" role="dialog" aria-modal="true"><h3>'+esc(message)+'</h3><button id="confirm-yes">SÍ, SALIR SIN GUARDAR</button><button id="confirm-no">CANCELAR</button></div>';document.body.appendChild(overlay);overlay.querySelector('#confirm-no').onclick=()=>overlay.remove();overlay.querySelector('#confirm-yes').onclick=()=>{overlay.remove();onYes()};}
+function exitNote(){if(editingNoteId)viewNote(editingNoteId);else openNotes()}
+function cancelNote(){if(document.getElementById('note-title')?.value.trim()||document.getElementById('note-body')?.value.trim()){appConfirm('¿Salir sin guardar los cambios?',exitNote);return}exitNote()}
+function saveNote(){let title=document.getElementById('note-title').value.trim(),body=document.getElementById('note-body').value.trim();if(!title){alert('Escribe un título para tu apunte.');return}if(!body){alert('Escribe el contenido del apunte.');return}let all=getNotes(),now=Date.now(),id=editingNoteId||('n'+now+'_'+Math.floor(Math.random()*100000));let n={id,title,body,updated:now};let i=all.findIndex(x=>x.id===id);if(i>=0)all[i]=n;else all.push(n);if(storeNotes(all))viewNote(id)}
+function viewNote(id){let n=getNotes().find(x=>x.id===id);if(!n)return openNotes();view='bible-note-view';window.scrollTo(0,0);$.innerHTML=bibleHeader('APUNTES','openNotes()')+`<h2>${esc(n.title)}</h2><p class="hint center">Actualizado: ${noteDate(n.updated)}</p><article class="notes-content">${linkRefs92(n.body,n.id)}</article><div class="notes-actions"><button onclick="editNote('${n.id}')">EDITAR</button><button onclick="copyNote('${n.id}')">COPIAR TEXTO</button><button onclick="shareSavedNote('${n.id}')">↗ ENVIAR</button><button onclick="deleteNote('${n.id}')">ELIMINAR</button></div>`}
+function copyNote(id){let n=getNotes().find(x=>x.id===id);if(!n)return;let content='Tema bíblico: '+n.title+'\n\nTEXTOS\n'+n.body;if(window.IDRM?.copyText){window.IDRM.copyText(content)}else if(navigator.clipboard?.writeText){navigator.clipboard.writeText(content).then(()=>alert('Apunte copiado.')).catch(()=>prompt('Copia el texto:',content))}else prompt('Copia el texto:',content)}
+function shareSavedNote(id){let n=getNotes().find(x=>x.id===id);if(!n)return;let content='Tema bíblico: '+n.title+'\n\nTEXTOS\n'+n.body;if(window.IDRM?.share)window.IDRM.share(content);else if(navigator.share)navigator.share({text:content}).catch(()=>{});else if(navigator.clipboard?.writeText)navigator.clipboard.writeText(content).then(()=>alert('Apunte copiado para compartir.'));else prompt('Copia el texto:',content)}
+function deleteNote(id){let n=getNotes().find(x=>x.id===id);if(!n)return;if(confirm('¿Eliminar definitivamente el apunte "'+n.title+'"?')){if(storeNotes(getNotes().filter(x=>x.id!==id)))openNotes()}}
+
+function openBibleTestament(test){view='bible-testament';window.scrollTo(0,0);let books=bibleBooks.filter(b=>b.testamento===test);$.innerHTML=bibleHeader(test.toUpperCase(),'openBible()')+(books.length?`<p class="center hint">${books.length} libros · Selecciona un libro</p><div class="bible-book-list">${books.map((b,i)=>`<button class="item bible-book-item" onclick="openBibleBook(${b.id})"><span class="bible-book-number">${i+1}.</span><span class="bible-book-name">${esc(b.nombre)}</span><span class="bible-book-count">›</span></button>`).join('')}</div>`:'<p>Cargando libros bíblicos...</p>')}
+function openBibleBook(id){bibleBook=id;view='bible-book';window.scrollTo(0,0);let b=bibleBooks.find(x=>x.id===id);if(!b)return openBible();let chapters=Object.keys(b.capitulos).map(Number).sort((a,b)=>a-b);$.innerHTML=bibleHeader(b.nombre,`openBibleTestament('${b.testamento}')`)+`<p class="center hint">Selecciona un capítulo</p><div class="bible-chapters">${chapters.map(c=>`<button onclick="openBibleVerses(${id},${c})">${c}</button>`).join('')}</div>`}
+function openBibleVerses(id,ch){let b=bibleBooks.find(x=>x.id===id);if(!b||!b.capitulos[String(ch)])return;view='bible-verse-menu';bibleBook=id;bibleChapter=ch;window.scrollTo(0,0);let nums=Object.keys(b.capitulos[String(ch)]).map(Number).sort((a,b)=>a-b);$.innerHTML=bibleHeader(b.nombre+' '+ch,`openBibleBook(${id})`)+`<p class="center hint">Selecciona el número del versículo</p><button class="item bible-show-all" onclick="readBible(${id},${ch})">LEER CAPÍTULO COMPLETO ›</button><div class="bible-verses-grid">${nums.map(n=>`<button onclick="readBible(${id},${ch},${n})">${n}</button>`).join('')}</div>`}
+function changeBibleFont(d){bibleFont=Math.max(.85,Math.min(2.1,Math.round((bibleFont+d)*100)/100));try{localStorage.setItem('bibleFont',String(bibleFont))}catch(e){}document.querySelectorAll('.bible-verses').forEach(e=>e.style.fontSize=bibleFont+'rem')}
+function bibleText(id,ch,v){let b=bibleBooks.find(x=>x.id===id);if(!b)return '';let verses=b.capitulos[String(ch)];if(!verses)return '';if(v!==undefined&&v!==null){let t=verses[String(v)];return t===undefined?'':b.nombre+' '+ch+':'+v+'\n'+t}let nums=Object.keys(verses).map(Number).sort((a,b)=>a-b);return b.nombre+' '+ch+'\n\n'+nums.map(n=>n+'. '+verses[String(n)]).join('\n')}
+function copyBibleText(id,ch,v){let txt=bibleText(id,ch,v);if(!txt)return;if(window.IDRM?.copyText){window.IDRM.copyText(txt);return}if(navigator.clipboard?.writeText){navigator.clipboard.writeText(txt).then(()=>alert('Texto bíblico copiado.')).catch(()=>prompt('Copia el texto:',txt))}else prompt('Copia el texto:',txt)}
+function shareBibleText(id,ch,v){let txt=bibleText(id,ch,v);if(!txt)return;if(window.IDRM?.share){window.IDRM.share(txt);return}if(navigator.share){navigator.share({text:txt}).catch(()=>{})}else if(navigator.clipboard?.writeText){navigator.clipboard.writeText(txt).then(()=>alert('Texto copiado; puedes pegarlo en WhatsApp u otra aplicación.')).catch(()=>prompt('Copia el texto:',txt))}else prompt('Copia el texto:',txt)}
+function bibleActionMenu(id,ch,v){
+  let label=v==null?'capítulo completo':'versículo '+v;
+  let old=document.getElementById('bible-action-overlay');if(old)old.remove();
+  let overlay=document.createElement('div');overlay.id='bible-action-overlay';overlay.className='bible-action-overlay';
+  overlay.innerHTML=`<div class="bible-action-dialog" role="dialog" aria-modal="true" aria-label="Opciones del ${label}"><h3>${v==null?'Opciones del capítulo':'Opciones del versículo '+v}</h3><button id="bible-copy-choice">📋 COPIAR TEXTO</button><button id="bible-share-choice">↗ COMPARTIR TEXTO</button>${v!=null?'<button id="mark92">MARCAR / DESMARCAR VERSÍCULO</button>':''}<button id="bible-cancel-choice">CANCELAR</button></div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});
+  if(v!=null)overlay.querySelector('#mark92').onclick=()=>{overlay.remove();let a=load92('idrm_marks92',{}),k=[id,ch,v].join(':');if(a[k])delete a[k];else a[k]=true;save92('idrm_marks92',a);document.getElementById('verse-'+v)?.classList.toggle('marked92',!!a[k])};
+  overlay.querySelector('#bible-cancel-choice').onclick=()=>overlay.remove();
+  overlay.querySelector('#bible-copy-choice').onclick=()=>{overlay.remove();copyBibleText(id,ch,v)};
+  overlay.querySelector('#bible-share-choice').onclick=()=>{overlay.remove();shareBibleText(id,ch,v)};
+}
+let bibleHoldTimer=null,bibleHoldX=0,bibleHoldY=0,bibleHoldFired=false;
+function cancelBibleHold(){if(bibleHoldTimer){clearTimeout(bibleHoldTimer);bibleHoldTimer=null}}
+function initBibleLongPress(){
+  const area=document.querySelector('.bible-verses');if(!area)return;
+  area.addEventListener('pointerdown',e=>{
+    if(e.button!==0||!e.isPrimary)return;
+    const target=e.target.closest('[data-bible-verse]');if(!target)return;
+    cancelBibleHold();bibleHoldFired=false;bibleHoldX=e.clientX;bibleHoldY=e.clientY;
+    const n=Number(target.dataset.bibleVerse),id=Number(area.dataset.book),ch=Number(area.dataset.chapter);
+    bibleHoldTimer=setTimeout(()=>{bibleHoldTimer=null;bibleHoldFired=true;bibleActionMenu(id,ch,n)},1000);
+  });
+  area.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-bibleHoldX)>12||Math.abs(e.clientY-bibleHoldY)>12)cancelBibleHold()});
+  ['pointerup','pointercancel','pointerleave'].forEach(name=>area.addEventListener(name,cancelBibleHold));
+  area.addEventListener('click',e=>{if(bibleHoldFired){bibleHoldFired=false;return}const target=e.target.closest('[data-bible-verse]');if(!target)return;area.querySelectorAll('.selected-verse').forEach(el=>el.classList.remove('selected-verse'));target.classList.add('selected-verse');save92('idrm_last92',{id:bibleBook,ch:bibleChapter,v:Number(target.dataset.bibleVerse)})});
+  area.addEventListener('contextmenu',e=>{const target=e.target.closest('[data-bible-verse]');if(!target)return;e.preventDefault();cancelBibleHold();if(!bibleHoldFired)bibleActionMenu(Number(area.dataset.book),Number(area.dataset.chapter),Number(target.dataset.bibleVerse))});
+}
+const locatorIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg>';
+let locatorTab='find',locatorTestament='Antiguo Testamento',locatorBook=1,locatorChapter=1,locatorVerse=1;
+function bibleRecent(){try{return JSON.parse(localStorage.getItem('idrmBibleRecent')||'[]')}catch(e){return []}}
+function rememberBibleLocation(id,ch,v){try{let recent=bibleRecent().filter(x=>!(x.id===id&&x.ch===ch&&x.v===v));recent.unshift({id,ch,v:v||1});localStorage.setItem('idrmBibleRecent',JSON.stringify(recent.slice(0,12)))}catch(e){}}
+function closeBibleLocator(){document.getElementById('bible-locator')?.remove()}
+function openBibleLocator(){
+ closeBibleLocator();const book=bibleBooks.find(b=>b.id===bibleBook)||bibleBooks[0];if(!book)return;
+ locatorBook=book.id;locatorTestament=book.testamento;locatorChapter=bibleChapter||1;locatorVerse=1;locatorTab='find';
+ const overlay=document.createElement('div');overlay.id='bible-locator';overlay.className='bible-locator-overlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Localizador bíblico');document.body.appendChild(overlay);renderBibleLocator();
+}
+function locatorChoice(kind){
+ const overlay=document.getElementById('bible-locator');if(!overlay)return;
+ const book=bibleBooks.find(b=>b.id===locatorBook);if(!book)return;
+ let items=[],current='',title='';
+ if(kind==='testament'){title='Testamento';items=[['Antiguo Testamento','AT'],['Nuevo Testamento','NT']];current=locatorTestament;}
+ if(kind==='book'){title='Libro';items=bibleBooks.filter(b=>b.testamento===locatorTestament).map(b=>[String(b.id),b.nombre]);current=String(locatorBook);}
+ if(kind==='chapter'){title='Capítulo';items=Object.keys(book.capitulos).map(n=>[n,n]);current=String(locatorChapter);}
+ if(kind==='verse'){title='Versículo';items=Object.keys(book.capitulos[String(locatorChapter)]||{}).map(n=>[n,n]);current=String(locatorVerse);}
+ const layer=document.createElement('div');layer.className='locator-choice-backdrop';layer.id='locator-choice';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label','Elegir '+title);
+ layer.innerHTML=`<div class="locator-choice-panel"><div class="locator-choice-title"><strong>${title}</strong><button aria-label="Cerrar lista" onclick="closeLocatorChoice()">✕</button></div><div class="locator-choice-items">${items.map(([v,label])=>`<button class="locator-choice-item ${v===current?'active':''}" data-choice="${esc(v)}" onclick="applyLocatorChoice('${kind}',this.dataset.choice)"><span>${esc(label)}</span><span class="locator-choice-check">${v===current?'●':'○'}</span></button>`).join('')}</div></div>`;
+ layer.addEventListener('click',e=>{if(e.target===layer)closeLocatorChoice()});
+ overlay.appendChild(layer);
+ requestAnimationFrame(()=>layer.querySelector('.locator-choice-item.active')?.scrollIntoView({block:'center'}));
+}
+function closeLocatorChoice(){document.getElementById('locator-choice')?.remove()}
+function applyLocatorChoice(kind,value){
+ closeLocatorChoice();
+ if(kind==='testament')locatorSelectTestament(value);
+ else if(kind==='book')locatorSelectBook(value);
+ else if(kind==='chapter')locatorSelectChapter(value);
+ else if(kind==='verse'){locatorSelectVerse(value);renderBibleLocator();}
+}
+function locatorSelectTestament(test){locatorTestament=test;locatorBook=bibleBooks.find(b=>b.testamento===test)?.id;locatorChapter=1;locatorVerse=1;renderBibleLocator()}
+function locatorSelectBook(id){locatorBook=Number(id);locatorChapter=1;locatorVerse=1;renderBibleLocator()}
+function locatorSelectChapter(ch){locatorChapter=Number(ch);locatorVerse=1;renderBibleLocator()}
+function locatorSelectVerse(v){locatorVerse=Number(v)}
+function locatorOpen(id,ch,v){closeBibleLocator();rememberBibleLocation(Number(id),Number(ch),Number(v));readBible(Number(id),Number(ch),Number(v))}
+function locatorQuickAdd(){
+ rememberBibleLocation(locatorBook,locatorChapter,locatorVerse);renderBibleLocator();
+}
+function renderBibleLocator(){
+ const el=document.getElementById('bible-locator');if(!el)return;
+ const book=bibleBooks.find(b=>b.id===locatorBook);if(!book)return;
+ const chapters=Object.keys(book.capitulos).map(Number).sort((a,b)=>a-b);
+ if(!book.capitulos[String(locatorChapter)])locatorChapter=chapters[0];
+ const verses=Object.keys(book.capitulos[String(locatorChapter)]).map(Number).sort((a,b)=>a-b);
+ if(!verses.includes(locatorVerse))locatorVerse=verses[0];
+ const recent=bibleRecent().map(x=>{const b=bibleBooks.find(y=>y.id===x.id);return b?`<button onclick="locatorOpen(${x.id},${x.ch},${x.v})">${esc(b.nombre)} ${x.ch}:${x.v} ›</button>`:''}).join('');
+ el.innerHTML=`<header class="bible-locator-top"><button onclick="closeBibleLocator()" aria-label="Cerrar localizador">←</button><strong>Localizador</strong></header><div class="bible-locator-tabs"><button class="${locatorTab==='find'?'active':''}" onclick="locatorTab='find';renderBibleLocator()">Localizar</button><button class="${locatorTab==='recent'?'active':''}" onclick="locatorTab='recent';renderBibleLocator()">Recientes</button></div>${locatorTab==='recent'?`<section class="bible-locator-recent"><h3>Textos consultados recientemente</h3>${recent||'<p>Aún no hay textos recientes.</p>'}</section>`:`<div class="locator-testament-tabs" role="group" aria-label="Testamento"><button class="${locatorTestament==='Antiguo Testamento'?'active':''}" aria-pressed="${locatorTestament==='Antiguo Testamento'}" onclick="if(locatorTestament!=='Antiguo Testamento')locatorSelectTestament('Antiguo Testamento')">Antiguo Testamento</button><button class="${locatorTestament==='Nuevo Testamento'?'active':''}" aria-pressed="${locatorTestament==='Nuevo Testamento'}" onclick="if(locatorTestament!=='Nuevo Testamento')locatorSelectTestament('Nuevo Testamento')">Nuevo Testamento</button></div><div class="locator-book-row locator-book-full"><label>Libro</label><button class="locator-custom-select locator-book-select" onclick="locatorChoice('book')" aria-label="Seleccionar libro">${esc(book.nombre)} <span class="locator-arrow">⌄</span></button></div><div class="locator-number-fields"><label for="locator-chapter">Capítulo</label><button class="locator-custom-select locator-number-select" id="locator-chapter" onclick="locatorChoice('chapter')" aria-label="Seleccionar capítulo">${locatorChapter} <span class="locator-arrow">⌄</span></button><label for="locator-verse">Versículo</label><button class="locator-custom-select locator-number-select" id="locator-verse" onclick="locatorChoice('verse')" aria-label="Seleccionar versículo">${locatorVerse} <span class="locator-arrow">⌄</span></button></div><div class="locator-actions"><button onclick="locatorQuickAdd()" aria-label="Agregar a localización rápida" title="Guardar acceso rápido">✚</button><button class="locator-open" onclick="locatorOpen(locatorBook,locatorChapter,locatorVerse)" aria-label="Localizar texto" title="Ir al versículo">${locatorIcon}</button></div><section class="bible-locator-recent"><h3>Lista de localización rápida</h3>${recent||'<p class="hint">Los textos consultados aparecerán aquí.</p>'}</section>`}`;
+}
+function updateBibleStickySpace(){
+ const head=document.querySelector('body.bible-reading .bible-read-sticky');
+ if(!head)return;
+ const h=Math.ceil(head.getBoundingClientRect().height);
+ if(h>0)document.documentElement.style.setProperty('--bible-sticky-height',h+'px');
+}
+window.addEventListener('resize',()=>{if(view==='bible-read')requestAnimationFrame(updateBibleStickySpace)});
+function readBible(id,ch,selected){let b=bibleBooks.find(x=>x.id===id);if(!b||!b.capitulos[String(ch)])return;view='bible-read';document.body.classList.add('bible-reading');bibleBook=id;bibleChapter=ch;rememberBibleLocation(id,ch,selected||1);save92('idrm_last92',{id,ch,v:selected||1});document.body.classList.remove('reading');window.scrollTo(0,0);let vs=b.capitulos[String(ch)];let keys=Object.keys(vs).map(Number).sort((a,b)=>a-b);let max=Object.keys(b.capitulos).length;$.innerHTML=`<div class="bible-read-sticky">`+`<div class="bar bible-header"><button onclick="backFromBibleReading()" aria-label="Regresar">←</button><h2 aria-hidden="true"></h2><button class="bible-notes-button" onclick="notesFromBible92()" title="Apuntes" aria-label="Apuntes"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M3 7h4M3 12h4M3 17h4M10 8h5M10 12h5M10 16h4"/></svg></button>${themeButton()}</div>`+`<div class="bible-current-chapter" aria-label="Libro y capítulo actual">${esc(b.nombre.toUpperCase())} — CAPÍTULO ${ch}</div></div><div class="bible-sticky-spacer" aria-hidden="true"></div><div class="bible-font-controls"><button onclick="changeBibleFont(-.1)">A−</button><span>Tamaño de letra</span><button onclick="changeBibleFont(.1)">A+</button></div><p class="bible-hold-hint">Mantén presionado un versículo para copiarlo o compartirlo.</p><h2 class="bible-chapter-title">${esc(b.nombre)} — CAPÍTULO ${ch}</h2><article class="bible-verses" data-book="${id}" data-chapter="${ch}" style="font-size:${bibleFont}rem">${keys.map(n=>`<section data-bible-verse="${n}" id="verse-${n}" class="${Number(selected)===n?'selected-verse':''} ${highlight92(id,ch,n)?'marked92':''}"><p><sup>${n}</sup> ${esc(vs[n])}</p></section>`).join('')}</article><nav class="bible-bottom"><button ${ch===1?'disabled':''} onclick="readBible(${id},${ch-1})">‹ Anterior</button><button class="bible-locator-trigger" onclick="openBibleLocator()" aria-label="Localizador bíblico" title="Localizador">${locatorIcon}</button><button ${ch===max?'disabled':''} onclick="readBible(${id},${ch+1})">Siguiente ›</button></nav>`;requestAnimationFrame(updateBibleStickySpace);initBibleLongPress();if(selected){requestAnimationFrame(()=>document.getElementById('verse-'+selected)?.scrollIntoView({block:'start'}))}}
+
+function openBibleSearch(){view='bible-search';window.scrollTo(0,0);$.innerHTML=bibleHeader('BUSCAR EN LA BIBLIA','openBible()')+`<input id="bible-q" placeholder="Ej. Juan 3:16 o amor" onkeydown="if(event.key==='Enter')searchBible()"><button class="item" onclick="searchBible()">Buscar</button><p class="hint">Busca una referencia o una frase. Se muestran hasta 100 resultados.</p><div id="bible-results"></div>`}
+function searchBible(){let q=document.getElementById('bible-q').value.trim();if(!q)return;let out=document.getElementById('bible-results');let m=q.match(/^(.+?)\s+(\d{1,3})(?::(\d{1,3}))?$/);if(m){let b=bibleBooks.find(b=>normalizeSearch(b.nombre)===normalizeSearch(m[1].trim()));if(b&&b.capitulos[m[2]]){readBible(b.id,Number(m[2]),m[3]?Number(m[3]):undefined);return}}
+if(q.length<2){out.innerHTML='<p>Escribe al menos dos caracteres.</p>';return}let hits=[];for(let b of bibleBooks){for(let [ch,verses] of Object.entries(b.capitulos)){for(let [v,t] of Object.entries(verses)){if(normalizeSearch(t).includes(normalizeSearch(q))){hits.push({b,ch,v,t});if(hits.length===100)break} }if(hits.length===100)break}if(hits.length===100)break}out.innerHTML=hits.map(h=>`<button class="bible-hit" onclick="readBible(${h.b.id},${h.ch},${h.v})"><strong>${esc(h.b.nombre)} ${h.ch}:${h.v}</strong><span>${esc(h.t)}</span></button>`).join('')||'<p>No se encontraron resultados.</p>'}
+
+
+function load92(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+function save92(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function isFav92(n){return (load92('idrm_favs92',{})[cat]||[]).includes(n)}
+function toggleFav92(){let a=load92('idrm_favs92',{}),l=a[cat]||[];a[cat]=l.includes(currentSong)?l.filter(n=>n!==currentSong):[...l,currentSong];save92('idrm_favs92',a);let b=document.getElementById('fav92');b.textContent=isFav92(currentSong)?'★':'☆';b.setAttribute('aria-pressed',isFav92(currentSong))}
+function favorites92(){view='favorites';document.body.classList.remove('reading');window.scrollTo(0,0);$.innerHTML=bibleHeader('FAVORITOS','openCat(cat)')+`<input id="q" placeholder="Buscar en favoritos" oninput="renderList(false)"><section id="list"></section>`;renderList(false)}
+function highlight92(id,ch,v){return !!load92('idrm_marks92',{})[[id,ch,v].join(':')]}
+let noteReturn92=null,notesReading92=null,planReturn92=false;
+function continue92(){let a=load92('idrm_last92',null);if(a)readBible(a.id,a.ch,a.v);else alert('Todavía no hay una lectura guardada.')}
+let scroll92=0;window.addEventListener('scroll',()=>{if(view!=='bible-read')return;clearTimeout(scroll92);scroll92=setTimeout(()=>{if(view!=='bible-read')return;let top=document.querySelector('.bible-read-sticky')?.getBoundingClientRect().bottom||0;let v=[...document.querySelectorAll('[data-bible-verse]')].find(e=>e.getBoundingClientRect().bottom>top+5);if(v)save92('idrm_last92',{id:bibleBook,ch:bibleChapter,v:Number(v.dataset.bibleVerse)})},100)},{passive:true});
+function notesFromBible92(){notesReading92=load92('idrm_last92',{id:bibleBook,ch:bibleChapter,v:1});openNotes()}
+function notesBack92(){if(notesReading92){let a=notesReading92;notesReading92=null;readBible(a.id,a.ch,a.v)}else openBible()}
+function linkRefs92(body,id){let names=bibleBooks.map(b=>b.nombre).sort((a,b)=>b.length-a.length).map(n=>n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));if(!names.length)return esc(body);let re=new RegExp('(?:'+names.join('|')+')\\s+\\d{1,3}:\\d{1,3}(?:[-–]\\d{1,3})?','gi');let out='',last=0;for(let m of body.matchAll(re)){out+=esc(body.slice(last,m.index));let a=m[0].match(/^(.+?)\s+(\d+):(\d+)/),b=bibleBooks.find(x=>normalizeSearch(x.nombre)===normalizeSearch(a[1]));out+=b?.capitulos[a[2]]?.[a[3]]?`<button class="ref92" data-note="${esc(id)}" onclick="noteReturn92=this.dataset.note;readBible(${b.id},${Number(a[2])},${Number(a[3])})">${esc(m[0])}</button>`:esc(m[0]);last=m.index+m[0].length}return out+esc(body.slice(last))}
+function plan92(){view='plan92';document.body.classList.remove('reading','bible-reading');window.scrollTo(0,0);let chapters=bibleBooks.flatMap(b=>Object.keys(b.capitulos).map(Number).sort((a,b)=>a-b).map(ch=>({id:b.id,ch,name:b.nombre})));if(!chapters.length){$.innerHTML=bibleHeader('PLAN DE LECTURA','openBible()')+'<p>Cargando Biblia...</p>';return}let done=load92('idrm_plan92',[]);let days=Array.from({length:365},(_,i)=>chapters.slice(Math.floor(i*chapters.length/365),Math.floor((i+1)*chapters.length/365)));$.innerHTML=bibleHeader('PLAN DE LECTURA','openBible()')+`<p>${done.length} de 365 días · ${(done.length/365*100).toFixed(1)}%</p><progress max="365" value="${done.length}" style="width:100%"></progress>`+days.map((day,i)=>`<details ${i===days.findIndex((_,j)=>!done.includes(j))?'open':''}><summary>Día ${i+1} ${done.includes(i)?'✓':''} · ${esc(day[0].name)} ${day[0].ch}</summary>${day.map(a=>`<button class="item" onclick="planReturn92=true;readBible(${a.id},${a.ch},1)">${esc(a.name)} ${a.ch}</button>`).join('')}<label><input type="checkbox" ${done.includes(i)?'checked':''} onchange="markDay92(${i},this.checked)"> Día completado</label></details>`).join('')}
+function markDay92(i,v){let a=load92('idrm_plan92',[]).filter(x=>x!==i);if(v)a.push(i);save92('idrm_plan92',a);let y=window.scrollY;plan92();window.scrollTo(0,y)}
+const backupKeys92=['idrm_bible_notes_v1','idrm_favs92','idrm_marks92','idrm_last92','idrm_plan92','idrmBibleRecent','idrm_theme','idrm_song_font','bibleFont',...songFontKeys98];
+function settings92(){view='settings92';document.body.classList.remove('home-screen','reading');$.innerHTML=bibleHeader('CONFIGURACIÓN','home()')+'<h3>Respaldo completo</h3><p>Apuntes, favoritos, marcas, progreso y preferencias.</p><button class="item" onclick="export92()">EXPORTAR RESPALDO COMPLETO</button><button class="item" onclick="importNotes()">RESTAURAR RESPALDO</button>'}
+function export92(){let storage={};for(let k of backupKeys92)storage[k]=localStorage.getItem(k);if(window.IDRM?.exportNotes)window.IDRM.exportNotes(JSON.stringify({format:'IDRM-respaldo',version:1,storage}));else alert('Disponible en Android.')}
+function restore92(d){if(d.storage&&typeof d.storage==='object'){for(const k of songFontKeys98){if(!Object.prototype.hasOwnProperty.call(d.storage,k))d.storage[k]=null}}if(d.version!==1||!d.storage||!backupKeys92.every(k=>Object.prototype.hasOwnProperty.call(d.storage,k)&&(d.storage[k]===null||typeof d.storage[k]==='string')))throw Error();for(let k of backupKeys92){let v=d.storage[k];if(v===null)continue;if(k==='idrm_theme'){if(!['light','dark'].includes(v))throw Error()}else if(['bibleFont','idrm_song_font',...songFontKeys98].includes(k)){if(!Number.isFinite(Number(v))||Number(v)<.8||Number(v)>2.1)throw Error()}else{let a=JSON.parse(v);if(k===NOTES_KEY&&(!Array.isArray(a)||!a.every(n=>n&&/^n[\w-]+$/.test(n.id)&&typeof n.title==='string'&&typeof n.body==='string')))throw Error();if(['idrm_plan92','idrmBibleRecent'].includes(k)&&!Array.isArray(a))throw Error();if(['idrm_favs92','idrm_marks92','idrm_last92'].includes(k)&&(!a||typeof a!=='object'||Array.isArray(a)))throw Error()}}if(!confirm('¿Restaurar respaldo completo? Se reemplazarán los datos y preferencias actuales. Exporta primero una copia si deseas conservarlos.'))return;let old=backupKeys92.map(k=>localStorage.getItem(k));try{backupKeys92.forEach(k=>d.storage[k]===null?localStorage.removeItem(k):localStorage.setItem(k,d.storage[k]))}catch(e){backupKeys92.forEach((k,i)=>old[i]===null?localStorage.removeItem(k):localStorage.setItem(k,old[i]));throw e}alert('Respaldo restaurado.');location.reload()}
+
+window.idrmBack=idrmBack;fetch('biblia_texto.json').then(r=>r.json()).then(d=>{bibleBooks=d;if(view==='bible')openBible();else if(view==='bible-testament')openBibleTestament(document.querySelector('.bible-header h2')?.textContent==='NUEVO TESTAMENTO'?'Nuevo Testamento':'Antiguo Testamento')}).catch(e=>console.error('Biblia',e));fetch('indice_himnario.json').then(r=>r.json()).then(d=>{indiceHimnario=d;if(view==='index'&&cat==='himnos')renderList(true)}).catch(e=>console.error('Índice Himnario',e));fetch('letras_completas.json').then(r=>r.json()).then(d=>{letras=d;songSearchCache.clear();if((view==='category'||view==='index')&&document.getElementById('q'))renderList(view==='index')}).catch(()=>{});fetch('catalogo_completo.json').then(r=>r.json()).then(d=>{catalog=d;home()}).catch(e=>{$.innerHTML='<h2>No se pudieron cargar los cantos</h2><p>Comprueba la instalación de la aplicación. Error al leer el catálogo.</p>';console.error('IDRM catálogo',e)});
+
+/* En las tres categorías de cantos, el tamaño se ajusta solo con los botones +/-.
+   El zoom táctil permanece disponible fuera de estas categorías (p. ej., Santa Biblia). */
+const songViews=new Set(['category','index','song','favorites']);
+const viewportMeta=document.querySelector('meta[name="viewport"]');
+const originalViewport=viewportMeta.getAttribute('content');
+function syncSongTouchZoom(){
+  viewportMeta.setAttribute('content',songViews.has(view)
+    ? 'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover'
+    : originalViewport);
+}
+new MutationObserver(syncSongTouchZoom).observe(document.getElementById('app'),{childList:true});
+['touchstart','touchmove'].forEach(type=>document.addEventListener(type,e=>{
+  if(songViews.has(view)&&e.touches.length>1)e.preventDefault();
+},{passive:false}));
+document.addEventListener('gesturestart',e=>{if(songViews.has(view))e.preventDefault()},{passive:false});
+
+/* Mantiene el espacio inferior solamente durante la lectura bíblica. */
+new MutationObserver(()=>{document.body.classList.toggle('bible-reading',view==='bible-read')}).observe(document.getElementById('app'),{childList:true});
+</script></body></html>
