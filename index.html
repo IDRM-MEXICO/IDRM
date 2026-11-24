@@ -849,25 +849,36 @@ document.addEventListener('gesturestart',e=>{if(songViews.has(view))e.preventDef
 /* Mantiene el espacio inferior solamente durante la lectura bíblica. */
 new MutationObserver(()=>{document.body.classList.toggle('bible-reading',view==='bible-read')}).observe(document.getElementById('app'),{childList:true});
 
-/* Apple R2: navegación interna mediante el historial del navegador. */
+/* Apple R3: reponer la barrera después de cada retroceso, incluso
+   si el navegador entrega un estado nulo o de una revisión anterior. */
 (function(){
- const key='idrmAppleBackR2';
- function arm(){
-   if(history.state && history.state[key]==='guard')return;
-   try{history.replaceState({[key]:'base'},'',location.href);history.pushState({[key]:'guard'},'',location.href);}catch(e){console.warn('Historial IDRM',e);}
+ const key='idrmAppleBackR3';
+ let busy=false;
+ function arm(force=false){
+   if(!force && history.state?.[key]==='guard')return;
+   try{
+     history.replaceState({[key]:'base'},'',location.href);
+     history.pushState({[key]:'guard'},'',location.href);
+   }catch(e){console.warn('Historial IDRM',e);}
  }
- // Crear la entrada tras una interacción real, para navegadores que omiten
- // entradas de historial creadas sin intervención del usuario.
- document.addEventListener('click',arm,true);
- document.addEventListener('touchend',arm,{capture:true,passive:true});
- window.addEventListener('popstate',function(e){
-   if(!e.state || e.state[key]!=='base')return;
-   arm();
+ function closeOrBack(){
+   if(document.getElementById('bible-action-overlay')){idrmBack();return;}
    for(const id of ['locator-choice','bible-locator','minister-contact-overlay','idrm-confirm']){
      const el=document.getElementById(id);if(el){el.remove();return;}
    }
-   if(view==='home' && !document.getElementById('bible-action-overlay'))return;
-   idrmBack();
+   if(view!=='home')idrmBack();
+ }
+ // Una entrada inicial y renovación durante interacciones reales.
+ arm();
+ let interacted=false;
+ function activate(){if(!interacted){interacted=true;arm(true);}else arm();}
+ for(const type of ['pointerdown','touchend','click','keydown'])
+   document.addEventListener(type,activate,{capture:true,passive:true});
+ window.addEventListener('pageshow',()=>arm());
+ window.addEventListener('popstate',()=>{
+   if(busy)return;
+   busy=true;
+   try{arm(true);closeOrBack();}finally{busy=false;}
  });
 })();
 </script></body></html>
