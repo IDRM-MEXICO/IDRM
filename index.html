@@ -849,36 +849,51 @@ document.addEventListener('gesturestart',e=>{if(songViews.has(view))e.preventDef
 /* Mantiene el espacio inferior solamente durante la lectura bíblica. */
 new MutationObserver(()=>{document.body.classList.toggle('bible-reading',view==='bible-read')}).observe(document.getElementById('app'),{childList:true});
 
-/* Apple R3: reponer la barrera después de cada retroceso, incluso
-   si el navegador entrega un estado nulo o de una revisión anterior. */
+/* Apple R5: one history entry per actual screen or dialog. */
 (function(){
- const key='idrmAppleBackR3';
- let busy=false;
- function arm(force=false){
-   if(!force && history.state?.[key]==='guard')return;
-   try{
-     history.replaceState({[key]:'base'},'',location.href);
-     history.pushState({[key]:'guard'},'',location.href);
-   }catch(e){console.warn('Historial IDRM',e);}
+ const key='idrmRouteR5', session=Date.now().toString(36);
+ const overlays=['idrm-confirm','locator-choice','bible-action-overlay','bible-locator','minister-contact-overlay'];
+ function route(){
+   let r=view;
+   if(['category','index','favorites','song'].includes(view))r+=':'+cat;
+   if(view==='bible-testament')r+=':'+document.querySelector('.bible-header h2')?.textContent;
+   if(['bible-book','bible-verse-menu','bible-read'].includes(view))r+=':'+bibleBook;
+   if(['bible-verse-menu','bible-read'].includes(view))r+=':'+bibleChapter;
+   return r+overlays.filter(id=>document.getElementById(id)).map(id=>'|'+id).join('');
+ }
+ let stack=[route()], pos=0, pending=false, handling=false;
+ function write(replace){try{history[replace?'replaceState':'pushState']({[key]:session,pos,route:stack[pos]},'',location.href)}catch(e){console.warn('IDRM historial',e)}}
+ write(true);
+ function sync(){
+   if(pending||handling)return;
+   const r=route();if(r===stack[pos])return;
+   const earlier=stack.lastIndexOf(r,pos-1);
+   if(earlier>=0){pending=true;history.go(earlier-pos);return;}
+   // Changing chapter in reading or song in reading is not a new menu.
+   if(!r.includes('|')&&!stack[pos].includes('|')&&r.startsWith('bible-read:')&&stack[pos].startsWith('bible-read:')){stack[pos]=r;write(true);return;}
+   stack=stack.slice(0,pos+1);stack.push(r);pos++;write(false);
  }
  function closeOrBack(){
-   if(document.getElementById('bible-action-overlay')){idrmBack();return;}
-   for(const id of ['locator-choice','bible-locator','minister-contact-overlay','idrm-confirm']){
-     const el=document.getElementById(id);if(el){el.remove();return;}
-   }
+   for(const id of overlays){const el=document.getElementById(id);if(!el)continue;if(id==='bible-action-overlay')idrmBack();else el.remove();return;}
    if(view!=='home')idrmBack();
  }
- // Una entrada inicial y renovación durante interacciones reales.
- arm();
- let interacted=false;
- function activate(){if(!interacted){interacted=true;arm(true);}else arm();}
- for(const type of ['pointerdown','touchend','click','keydown'])
-   document.addEventListener(type,activate,{capture:true,passive:true});
- window.addEventListener('pageshow',()=>arm());
- window.addEventListener('popstate',()=>{
-   if(busy)return;
-   busy=true;
-   try{arm(true);closeOrBack();}finally{busy=false;}
+ new MutationObserver(sync).observe(document.body,{childList:true,subtree:true});
+ window.addEventListener('popstate',e=>{
+   const st=e.state;
+   if(!st||st[key]!==session){pending=false;return;}
+   const wasPending=pending;pending=false;handling=true;
+   try{
+     const old=pos;pos=st.pos;
+     if(!wasPending && pos<old)closeOrBack();
+     // Forward navigation is not a request to reopen a dismissed dialog.
+     // Keep the current rendered screen and its state consistent.
+     stack=stack.slice(0,pos+1);stack[pos]=route();write(true);
+     // A cancelled note exit or a different semantic parent needs a real
+     // entry so the next Back still has a destination inside IDRM.
+     if(!wasPending && pos<old && stack[pos]!==st.route){
+       stack[pos]=st.route;write(true);stack.push(route());pos++;write(false);
+     }
+   }finally{handling=false;}
  });
 })();
 </script></body></html>
