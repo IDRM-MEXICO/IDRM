@@ -848,4 +848,26 @@ document.addEventListener('gesturestart',e=>{if(songViews.has(view))e.preventDef
 
 /* Mantiene el espacio inferior solamente durante la lectura bíblica. */
 new MutationObserver(()=>{document.body.classList.toggle('bible-reading',view==='bible-read')}).observe(document.getElementById('app'),{childList:true});
+
+/* Apple R2: navegación interna mediante el historial del navegador. */
+(function(){
+ const key='idrmAppleBackR2';
+ function arm(){
+   if(history.state && history.state[key]==='guard')return;
+   try{history.replaceState({[key]:'base'},'',location.href);history.pushState({[key]:'guard'},'',location.href);}catch(e){console.warn('Historial IDRM',e);}
+ }
+ // Crear la entrada tras una interacción real, para navegadores que omiten
+ // entradas de historial creadas sin intervención del usuario.
+ document.addEventListener('click',arm,true);
+ document.addEventListener('touchend',arm,{capture:true,passive:true});
+ window.addEventListener('popstate',function(e){
+   if(!e.state || e.state[key]!=='base')return;
+   arm();
+   for(const id of ['locator-choice','bible-locator','minister-contact-overlay','idrm-confirm']){
+     const el=document.getElementById(id);if(el){el.remove();return;}
+   }
+   if(view==='home' && !document.getElementById('bible-action-overlay'))return;
+   idrmBack();
+ });
+})();
 </script></body></html>
